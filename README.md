@@ -1,5 +1,8 @@
 ARMA-Hausarbeit
 ===============
 
-Hausarbeit in AdvancedRichMediaApplications von Philipp Nardmann und Georg Hartmann. 
-Thema ist ein Evaluationsystem für Veranstaltungen an der HS Osnabrück.
+Homework for the course 'AdvancedRichMediaApplications' on the University of Applied Sciences Osnabrück.
+
+PHP, Zend Framework
+
+By Philipp Nardmann & Georg Hartmann
