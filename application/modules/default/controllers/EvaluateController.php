@@ -6,14 +6,14 @@ class EvaluateController extends Zend_Controller_Action
 	protected $answerToQuestionTable;
 	protected $questionTable;
 	protected $questionnaireTable;
-
+	protected $participantTable;
 
 	public function init()
 	{
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
-		
+		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
 			
 	}
 
@@ -26,18 +26,25 @@ class EvaluateController extends Zend_Controller_Action
 	public function evaluateAction()
 	{
 		$form = $this->generateForm();
-		$evalID = null;
+		$participantID = null;
 		$request = $this->getRequest();
 
 		if ($request->isGet()){
-			$evalID = (int)$request->getParam('id');
+			$participantID = (int)$request->getParam('id');
 		}
 
-		echo sha1(uniqid(mt_rand(), true));
+		$participants = $this->participantTable->find($participantID);
+		if (count($participants) > 0){
+			$participant = $participants->current();
+		}
+
+		echo $participant->questionnaireId;
+
+		//echo sha1(uniqid(mt_rand(), true));
 
 		$this->view->form = $form;
 
-		//zu evalID die entsprechende Evaluation suchen
+		//zu participantID die entsprechende Evaluation suchen
 		//entspechendes Formular aufbauen
 	}
 
