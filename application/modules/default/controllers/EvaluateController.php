@@ -33,7 +33,7 @@ class EvaluateController extends Zend_Controller_Action
 			$evalID = (int)$request->getParam('id');
 		}
 
-		echo $evalID;
+		echo sha1(uniqid(mt_rand(), true));
 
 		$this->view->form = $form;
 
@@ -52,7 +52,7 @@ class EvaluateController extends Zend_Controller_Action
 
 		$radioElement = new Zend_Form_Element_Radio(
 		'radio', array('label' => 'Radio'));
-		$radioElement->setMultiOptions(array(0 => 0, 1));
+		$radioElement->setMultiOptions(array(0 => 0, 1, 2, 3, 4));
 
 		$submitElement = new Zend_Form_Element_Submit(
 		'submit', array('label'=>'Speichern'));
