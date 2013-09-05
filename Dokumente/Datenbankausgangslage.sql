@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 05. Sep 2013 um 11:56
+-- Erstellungszeit: 05. Sep 2013 um 16:06
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -28,7 +28,7 @@ CREATE TABLE `answertoquestion` (
   PRIMARY KEY (`id`),
   KEY `questionId` (`questionId`),
   KEY `questionnaireId` (`questionnaireId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `answertoquestion`
@@ -36,9 +36,20 @@ CREATE TABLE `answertoquestion` (
 
 INSERT INTO `answertoquestion` (`id`, `questionId`, `questionnaireId`, `text`) VALUES
 (1, 1, 1, 'Niemals'),
-(2, 1, 1, 'Na klaro!'),
-(3, 1, 1, 'Plutka die alte Kacksau'),
-(4, 1, 1, 'Plutka die alte Kacksau');
+(2, 1, 1, 'Na klaro!');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `participant`
+--
+
+CREATE TABLE `participant` (
+  `hash` varchar(40) COLLATE utf8_bin NOT NULL,
+  `questionnaireId` int(12) NOT NULL,
+  PRIMARY KEY (`hash`),
+  KEY `questionnaireId` (`questionnaireId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -90,11 +101,18 @@ INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `courseName`, `ty
 
 CREATE TABLE `user` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
-  `name` varchar(18) COLLATE utf8_bin NOT NULL,
   `password` varchar(256) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+  `role` varchar(12) COLLATE utf8_bin NOT NULL,
+  `username` varchar(12) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+
+--
+-- Daten für Tabelle `user`
+--
+
+INSERT INTO `user` (`id`, `password`, `role`, `username`) VALUES
+(2, '7dfe73130d621f720f9823dcdb8dbf4f583fa969', 'admin', 'plutka');
 
 --
 -- Constraints der exportierten Tabellen
@@ -104,5 +122,11 @@ CREATE TABLE `user` (
 -- Constraints der Tabelle `answertoquestion`
 --
 ALTER TABLE `answertoquestion`
-  ADD CONSTRAINT `answertoquestion_ibfk_2` FOREIGN KEY (`questionnaireId`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `answertoquestion_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `answertoquestion_ibfk_1` FOREIGN KEY (`questionId`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `answertoquestion_ibfk_2` FOREIGN KEY (`questionnaireId`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `participant`
+--
+ALTER TABLE `participant`
+  ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`questionnaireId`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

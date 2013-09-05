@@ -28,18 +28,14 @@ class IndexController extends Zend_Controller_Action
 
 	public function _getLoginForm(){
 
-			$form = new Zend_Form();
-			$form->setMethod(Zend_Form::METHOD_POST);
-			$form->addElement('text', 'username', array(
-					'label' => 'Benutzername'
-				));
-			$form->addElement('password', 'password', array(
-					'label' => 'Passwort'
-				))->addElement('submit','submit',array(
-					'label' => 'login'
-				));
+	    $form = new Zend_Form();
+		$form->setAction('')->setMethod('post');
+		$user = new Zend_Form_Element_Text('username', array('label' => 'Benutzername', 'required' => true));
+		$password = new Zend_Form_Element_Password('password', array('label' => 'Passwort', 'required' => true));
+		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Anmelden'));
+		$form->addElements(array($user, $password, $submit));
 
-				return $form;
+		return $form;
 
 	}
 
