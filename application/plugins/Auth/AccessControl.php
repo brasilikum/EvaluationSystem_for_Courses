@@ -10,26 +10,7 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 		$this->_acl  = $acl;
 	}
 
-		public static function getUserRole()
-	{
-		try
-		{
-			if (isset(Zend_Auth::getInstance()->getStorage()->read()->role))
-			{
-				$role = Zend_Auth::getInstance()->getStorage()->read()->role;
-			}
-			else
-			{
-				$role = 'guest';
-			}
-		}
-		catch(Exeption $e)
-		{
-			$role = 'guest';
-		}
-		return $role;
-	}
-
+		
 
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request)
