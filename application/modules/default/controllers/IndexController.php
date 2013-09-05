@@ -30,10 +30,10 @@ class IndexController extends Zend_Controller_Action
 
 	    $form = new Zend_Form();
 		$form->setAction('')->setMethod('post');
-		$user = new Zend_Form_Element_Text('username', array('label' => 'Benutzername', 'required' => true));
+		$username = new Zend_Form_Element_Text('username', array('label' => 'Benutzername', 'required' => true));
 		$password = new Zend_Form_Element_Password('password', array('label' => 'Passwort', 'required' => true));
 		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Anmelden'));
-		$form->addElements(array($user, $password, $submit));
+		$form->addElements(array($username, $password, $submit));
 
 		return $form;
 

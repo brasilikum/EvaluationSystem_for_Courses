@@ -8,6 +8,6 @@ class Application_Plugin_Auth_AuthAdapter extends Zend_Auth_Adapter_DbTable
 		$this->setTableName('user');
 		$this->setIdentityColumn('username');
 		$this->setCredentialColumn('password');
-		$this->setCredentialTreatment('SHA1(?)'); 
+		//$this->setCredentialTreatment('SHA1'); 
 	}
 }

@@ -20,24 +20,27 @@ class Admin_IndexController extends Zend_Controller_Action
 	public function indexAction()
 	{
 
-			$this->view->form = $this->_getLoginForm();
-
+		if(Application_Plugin_auth_AccessControl::getUserRole()=='admin'){
+		
+		
+		
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/logout\'>Logout</a></div><br/>';
+		}	
+			
+		Zend_Auth::getInstance()->clearIdentity();
+		$this->_redirect('default/index');
 			
 
 	}
 
-	public function _getLoginForm(){
+	public function logoutAction(){
 
-	    $form = new Zend_Form();
-		$form->setAction('')->setMethod('post');
-		$user = new Zend_Form_Element_Text('username', array('label' => 'Benutzername', 'required' => true));
-		$password = new Zend_Form_Element_Password('password', array('label' => 'Passwort', 'required' => true));
-		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Anmelden'));
-		$form->addElements(array($user, $password, $submit));
 
-		return $form;
-
+		Zend_Auth::getInstance()->clearIdentity();
+		$this->_redirect('default/index');
 	}
+
+	
 
 
 }

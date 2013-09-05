@@ -10,15 +10,35 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 		$this->_acl  = $acl;
 	}
 
+		public static function getUserRole()
+	{
+		try
+		{
+			if (isset(Zend_Auth::getInstance()->getStorage()->read()->role))
+			{
+				$role = Zend_Auth::getInstance()->getStorage()->read()->role;
+			}
+			else
+			{
+				$role = 'guest';
+			}
+		}
+		catch(Exeption $e)
+		{
+			$role = 'guest';
+		}
+		return $role;
+	}
+
 
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request)
-	{
+	{	
 		//exestiert schon ein User oder ist etwas im get oder post übergeben
 		if (!$this->_auth->hasIdentity()
 			&& null !== $request->getPost('username')
-			&& null !== $request->getPost('password')) 
-		{
+			&& null !== $request->getPost('password')){	
+
 			//$view = $registry->view;
 			$filter = new Zend_Filter_StripTags();
 			$username = $filter->filter($request->getPost('username'));
@@ -46,7 +66,7 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 					#speicherung in der Datenbank
 					$storage = $this->_auth->getStorage();
         			$storage->write($authAdapter->getResultRowObject(null, 'password'));
-					Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('default/index');
+					Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/index');
 				}
 
 				$registry = Zend_Registry::getInstance();
