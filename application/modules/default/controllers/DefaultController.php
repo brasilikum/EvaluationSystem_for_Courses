@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends Zend_Controller_Action
+class Default_DefaultController extends Zend_Controller_Action
 {
 
 
