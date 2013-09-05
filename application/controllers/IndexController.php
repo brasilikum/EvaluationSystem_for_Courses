@@ -19,29 +19,27 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-		$this->view->entries = $this->answerToQuestionTable->fetchAll();
 
-		$rowset = $this->answerToQuestionTable->fetchAll();
-
-		$count = count($rowset);
-
-		echo $count;
-
-			$row = $this->questionTable->find(1);
-
-			$question = $row->current();
-
-
-			$parent = $question->findDependentRowset('Application_Model_DbTable_AnswerToQuestionTable');
-
-			foreach($parent as $row){
-				
-				echo $row->text;
-			}
+			$this->view->form = $this->_getLoginForm();
 
 			
 
-			
+	}
+
+	public function _getLoginForm(){
+
+			$form = new Zend_Form();
+			$form->setMethod(Zend_Form::METHOD_POST);
+			$form->addElement('text', 'username', array(
+					'label' => 'Benutzername'
+				));
+			$form->addElement('password', 'password', array(
+					'label' => 'Passwort'
+				))->addElement('submit','submit',array(
+					'label' => 'login'
+				));
+
+				return $form;
 
 	}
 
