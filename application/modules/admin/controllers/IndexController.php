@@ -20,24 +20,23 @@ class Admin_IndexController extends Zend_Controller_Action
 	public function indexAction()
 	{
 
-		if(Application_Plugin_auth_AccessControl::getUserRole()=='admin'){
 		
 		
 		
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/logout\'>Logout</a></div><br/>';
-		}	
 			
-		Zend_Auth::getInstance()->clearIdentity();
-		$this->_redirect('default/index');
+			
 			
 
 	}
 
 	public function logoutAction(){
+		echo 'HUUUUUUI';
 
-
+	 	$role = Zend_Auth::getInstance()->getIdentity();
+	 	echo $role;
 		Zend_Auth::getInstance()->clearIdentity();
-		$this->_redirect('default/index');
+		$this->_redirect('default');
 	}
 
 	
