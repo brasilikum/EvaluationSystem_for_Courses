@@ -31,11 +31,11 @@ class IndexController extends Zend_Controller_Action
 
 			$question = $row->current();
 
-			echo count($row);
 
 			$parent = $question->findDependentRowset('Application_Model_DbTable_AnswerToQuestionTable');
 
 			foreach($parent as $row){
+				
 				echo $row->text;
 			}
 
