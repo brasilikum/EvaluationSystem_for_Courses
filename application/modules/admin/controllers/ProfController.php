@@ -38,6 +38,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 			echo 'Ihre getätigten Umfragen';
 		
+			//getting UserId and its denpendant rows
 			$profId = Application_Plugin_auth_AccessControl::getUserId();
 			$profRowset = $this->userTable->find($profId);
 			$profRow = $profRowset->current();
@@ -45,21 +46,35 @@ class Admin_ProfController extends Zend_Controller_Action
 
 			$today = date("Y-m-d");
 
-			echo 'Heute ist der';
-			echo $today;
-
+			//questionnaires from logged-in User are displayed
 			foreach($questionnaires as $questionnaireFromProf){
 				if($questionnaireFromProf->expirationDate >= $today){
 				echo $questionnaireFromProf->courseName;
 				echo $questionnaireFromProf->expirationDate;
 			}
 			}
+
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
 			
 
 	}
+
+	public function createAction()
+	{
+
+		
+		
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			
+			
+			
+
+	}
+
 
 	
 
