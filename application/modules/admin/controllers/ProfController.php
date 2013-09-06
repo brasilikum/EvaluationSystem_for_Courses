@@ -22,6 +22,20 @@ class Admin_ProfController extends Zend_Controller_Action
 
 		
 		
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>Umfragen</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			
+			
+			
+
+	}
+
+
+	public function questionnairesAction()
+	{
+
+		
+			
 		
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			

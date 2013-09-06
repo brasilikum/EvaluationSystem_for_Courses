@@ -28,7 +28,7 @@ USE `evaluation`;
 -- Tabellenstruktur für Tabelle `answertoquestion`
 --
 
-CREATE TABLE IF NOT EXISTS `answertoquestion` (
+CREATE TABLE  `answertoquestion` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `questionId` int(12) NOT NULL,
   `answertext` varchar(1024) COLLATE utf8_bin NOT NULL,
