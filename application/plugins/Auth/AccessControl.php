@@ -10,7 +10,27 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 		$this->_acl  = $acl;
 	}
 
-		
+	
+	public static function getUserRole()
+	{
+		try
+		{
+			if (isset(Zend_Auth::getInstance()->getStorage()->read()->role))
+			{
+				$role = Zend_Auth::getInstance()->getStorage()->read()->role;
+			}
+			else
+			{
+				$role = 'guest';
+			}
+		}
+		catch(Exeption $e)
+		{
+			$role = 'guest';
+		}
+		return $role;
+	}
+	
 
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request)
@@ -42,12 +62,18 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 				{ 
 					$messages = $result->getMessages();
 					$message = $messages[0];
-				} else 
+				}else 
 				{
 					#speicherung in der Datenbank
 					$storage = $this->_auth->getStorage();
         			$storage->write($authAdapter->getResultRowObject(null, 'password'));
-					Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/index');
+        			if(Application_Plugin_auth_AccessControl::getUserRole() == 'admin'){
+        				Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/prof');
+        			}
+        			if(Application_Plugin_auth_AccessControl::getUserRole() == 'user'){
+        				Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/index');
+        			}
+
 				}
 
 				$registry = Zend_Registry::getInstance();
