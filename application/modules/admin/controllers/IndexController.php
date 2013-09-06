@@ -23,21 +23,14 @@ class Admin_IndexController extends Zend_Controller_Action
 		
 		
 		
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/logout\'>Logout</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
 			
 
 	}
 
-	public function logoutAction(){
-		echo 'HUUUUUUI';
-
-	 	$role = Zend_Auth::getInstance()->getIdentity();
-	 	echo $role;
-		Zend_Auth::getInstance()->clearIdentity();
-		$this->_redirect('default');
-	}
+	
 
 	
 
