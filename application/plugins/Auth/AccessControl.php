@@ -38,7 +38,7 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 				$authAdapter->setIdentity($username);
 				$authAdapter->setCredential($password);
 				$result = $this->_auth->authenticate($authAdapter);
-				if (!$result->isValid()) 
+				if (!$result->isValid() ) 
 				{ 
 					$messages = $result->getMessages();
 					$message = $messages[0];
