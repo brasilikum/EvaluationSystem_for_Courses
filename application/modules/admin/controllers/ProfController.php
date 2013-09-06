@@ -6,6 +6,7 @@ class Admin_ProfController extends Zend_Controller_Action
 	protected $answerToQuestionTable;
 	protected $questionTable;
 	protected $questionnaireTable;
+	protected $userTable;
 
 
 	public function init()
@@ -13,6 +14,7 @@ class Admin_ProfController extends Zend_Controller_Action
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
+		$this->userTable = new Application_Model_DbTable_UserTable();
 		
 			
 	}
@@ -34,9 +36,17 @@ class Admin_ProfController extends Zend_Controller_Action
 	public function questionnairesAction()
 	{
 
+			echo 'Ihre getätigten Umfragen';
 		
-			
-		
+			$profId = Application_Plugin_auth_AccessControl::getUserId();
+			$profRowset = $this->userTable->find($profId);
+			$profRow = $profRowset->current();
+			$questionnaires = $profRow->findDependentRowset('Application_Model_DbTable_QuestionnaireTable');
+
+			foreach($questionnaires as $questionnaireFromProf){
+				echo $questionnaireFromProf->courseName;
+				echo $questionnaireFromProf->expirationDate;
+			}
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			

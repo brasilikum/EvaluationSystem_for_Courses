@@ -31,6 +31,26 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
 		return $role;
 	}
 	
+	public static function getUserId()
+		{
+			try
+			{
+				if (isset(Zend_Auth::getInstance()->getStorage()->read()->id))
+				{
+					$userId = Zend_Auth::getInstance()->getStorage()->read()->id;
+				}
+				else
+				{
+					$userId = null;
+				}
+			}
+			catch(Exeption $e)
+			{
+					$userId = null;
+			}
+				
+			return $userId;
+		}
 
 
 	public function routeStartup(Zend_Controller_Request_Abstract $request)
