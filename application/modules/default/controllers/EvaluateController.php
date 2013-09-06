@@ -43,10 +43,12 @@ class EvaluateController extends Zend_Controller_Action
 				//Get all questions
 				$allQuestions = $this->questionTable->fetchAll();
 				$categoryQuestions = array();
+				$i = 0;
 				foreach($allQuestions as $question){
 					//Sort out questions who are not in the same category as questionaire
 					if($question->category == $questionnaire->category){
-						array_push($categoryQuestions, $question);
+						$categoryQuestions[$i]  = $question;
+						$i = $i + 1;
 					}
 				}
 				$this->view->form = $this->generateForm($categoryQuestions);
@@ -67,7 +69,6 @@ class EvaluateController extends Zend_Controller_Action
 
 	private function generateForm($categoryQuestions = null)	{
 		if($categoryQuestions != null) {
-			echo "categoryQuestions !null";
 			$form = new Zend_Form;
 			$form->setMethod('post');
 
@@ -79,14 +80,30 @@ class EvaluateController extends Zend_Controller_Action
 			'semester', array('label' => 'Semester'));
 			$semesterElement->setMultiOptions(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
 
+			$fixedElements = array($courseElement, 
+								$semesterElement);
+			$form->addElements($fixedElements);
+
+			foreach($categoryQuestions as $question){
+				$element;
+				if($question->type == "radio"){
+					$element = new Zend_Form_Element_Radio(
+					$question->id, array('label' => $question->text));
+					$element->setMultiOptions(array("Trifft zu", "" , "Trifft teilweise zu", "" , "Trifft nicht zu"));
+					$form->addElement($element, $question->id);
+				} else if($question->type == "text"){
+					$element = new Zend_Form_Element_Text(
+					$question->id, array('label' => $question->text));
+					$element->addFilter('StripTags');
+					$form->addElement($element, $question->id);
+				}
+				
+			}
+
 			$submitElement = new Zend_Form_Element_Submit(
 			'submit', array('label'=>'Speichern'));
 
-			$fixedElements = array($courseElement, 
-								$semesterElement, 
-								$submitElement);
-
-			$form->addElements($fixedElements);
+			
 
 			return $form;
 		} else {
