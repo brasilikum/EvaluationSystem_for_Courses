@@ -1,26 +1,18 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 3.5.7
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 06. Sep 2013 um 15:06
--- Server Version: 5.6.11
--- PHP-Version: 5.5.3
+-- Host: localhost
+-- Erstellungszeit: 06. Sep 2013 um 16:11
+-- Server Version: 5.5.29
+-- PHP-Version: 5.4.10
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- Datenbank: `evaluation`
+-- Datenbank: `Evaluation`
 --
-CREATE DATABASE IF NOT EXISTS `evaluation` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `evaluation`;
 
 -- --------------------------------------------------------
 
@@ -28,14 +20,15 @@ USE `evaluation`;
 -- Tabellenstruktur für Tabelle `answertoquestion`
 --
 
-CREATE TABLE  `answertoquestion` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `answertoquestion` (
+  `id` int(12) NOT NULL,
+  `answertext` varchar(1024) CHARACTER SET utf8 NOT NULL,
   `questionId` int(12) NOT NULL,
-  `answertext` varchar(1024) COLLATE utf8_bin NOT NULL,
   `answernumber` int(2) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `answertext` (`answertext`(255)),
   KEY `questionId` (`questionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -43,7 +36,7 @@ CREATE TABLE  `answertoquestion` (
 -- Tabellenstruktur für Tabelle `participant`
 --
 
-CREATE TABLE IF NOT EXISTS `participant` (
+CREATE TABLE `participant` (
   `hash` varchar(48) COLLATE utf8_bin NOT NULL,
   `questionnaireId` int(12) NOT NULL,
   PRIMARY KEY (`hash`),
@@ -64,24 +57,60 @@ INSERT INTO `participant` (`hash`, `questionnaireId`) VALUES
 -- Tabellenstruktur für Tabelle `question`
 --
 
-CREATE TABLE IF NOT EXISTS `question` (
+CREATE TABLE `question` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
-  `text` varchar(1024) COLLATE utf8_bin NOT NULL,
-  `category` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT 'VL',
-  `type` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT 'radio',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
+  `text` varchar(1024) NOT NULL,
+  `category` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'VL',
+  `type` varchar(5) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'radio',
+  PRIMARY KEY (`id`),
+  KEY `category` (`category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
 
 --
 -- Daten für Tabelle `question`
 --
 
 INSERT INTO `question` (`id`, `text`, `category`, `type`) VALUES
-(2, 'Die Ausstattung der Räume bewerte ich als gut', 'VL', 'radio'),
-(3, 'Der Lehrende geht offen auf Fragen ein', 'VL', 'radio'),
-(4, 'Der Lehrende kann komplexe Sachverhalte deutlich machen', 'VL', 'radio'),
-(5, 'Das hat mir besonders gefallen', 'VL', 'text'),
-(6, 'Das hat mir nicht gefallen', 'VL', 'text');
+(59, 'Der inhaltliche Aufbau ist logisch nachvollziehbar', 'VL', 'radio'),
+(60, 'Ein Bezug zwischen Theorie und Praxis/Anwendung wird hergestellt', 'VL', 'radio'),
+(61, 'Die / der Lehrende spricht verständlich(Lautstärke, Deutlichkeit)', 'VL', 'radio'),
+(62, 'Der / die Lehrende kann Komplizierte versändlich machen', 'VL', 'radio'),
+(63, 'Die Veranstaltung hat mein Interesse an der Thematik geweckt', 'VL', 'radio'),
+(64, 'Zum Mitdenken und Durchdenken des Stoffes/Themas wird angeragt', 'VL', 'radio'),
+(65, 'Die / der Lehrende wirkt vorbereitet', 'VL', 'radio'),
+(66, 'Die Materialien zur Vorlesung sind hilfreich (Skripte, Folien, etc.)', 'VL', 'radio'),
+(67, 'Medien (Tafel, OHP, Beamer) werden sinnvoll eingesetzt', 'VL', 'radio'),
+(68, 'Die / der Lehrende ist kooperativ und aufgeschlossen', 'VL', 'radio'),
+(69, 'Das Tempo des Kurses ist angemessen', 'VL', 'radio'),
+(70, 'Der Umfang ist angemessen', 'VL', 'radio'),
+(71, 'Der Schwierigkeitsgrad ist angemessen', 'VL', 'radio'),
+(72, 'Außerhalb der Veranstaltung findet eine gute Betreuung statt', 'VL', 'radio'),
+(73, 'Die / der Lehrende fördert Fragen und aktive Mitarbeit', 'VL', 'radio'),
+(74, 'Auf Beiträge der Teilnehmer/-innen gibt es ein hilfreiches Feedback', 'VL', 'radio'),
+(75, 'Die Prüfungsanforderungen sind transparent', 'VL', 'radio'),
+(76, 'Ich lerne viel in der Veranstaltung', 'VL', 'radio'),
+(77, 'Die aktive Beteiligung der Studierenden bewerte ich als sehr gut', 'VL', 'radio'),
+(78, 'Die Ausstattung der Hörsäle ist sehr gut', 'VL', 'radio'),
+(79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 'text'),
+(80, 'Ich habe X% der Vorlesungen besucht', 'VL', 'radio'),
+(81, 'Ich gebe der Vorlesung die Gesamtnote(Noten von 1 bis 5)', 'VL', 'text'),
+(82, 'Ich gebe diese Note weil', 'VL', 'text'),
+(83, 'Mir hat besonders gefallen', 'VL', 'radio'),
+(84, 'Mir hat nicht gefallen', 'VL', 'radio'),
+(85, 'Die Laborausstattung ist sehr gut', 'PR', 'radio'),
+(86, 'Die Unterlagen zur Vorbereitung sind hilfreich und verständlich', 'PR', 'radio'),
+(87, 'Die Anforderungen sind transparent', 'PR', 'radio'),
+(88, 'Der Bezug zur Vorlesung ist gegeben', 'VL', 'radio'),
+(89, 'Die Betreuenden gehen aufgeschlossen auf meine Fragen ein', 'PR', 'radio'),
+(90, 'Die Verfügbarkeit der Betreuenden ist gegeben', 'PR', 'radio'),
+(91, 'Der Umfang der Versuche/Übungen ist angemessen', 'PR', 'radio'),
+(92, 'Die selbstständige Durchführung der Versuche/Übungen wird gefördert', 'PR', 'radio'),
+(93, 'Das Feedback ist hilfreich', 'PR', 'radio'),
+(94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 'text'),
+(95, 'Ich gebe dem Praktikum die Gesamtnote', 'PR', 'text'),
+(96, 'Ich gebe diese Note weil', 'PR', 'text'),
+(97, 'Mir hat besonders gefallen', 'PR', 'text'),
+(98, 'Mir hat nicht gefallen', 'PR', 'text');
 
 -- --------------------------------------------------------
 
@@ -89,22 +118,24 @@ INSERT INTO `question` (`id`, `text`, `category`, `type`) VALUES
 -- Tabellenstruktur für Tabelle `questionnaire`
 --
 
-CREATE TABLE IF NOT EXISTS `questionnaire` (
+CREATE TABLE `questionnaire` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `profId` int(12) NOT NULL,
   `expirationDate` date NOT NULL,
-  `Semester` varchar(20) COLLATE utf8_bin NOT NULL,
-  `courseName` varchar(256) COLLATE utf8_bin NOT NULL,
-  `category` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT 'VL',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+  `semester` varchar(20) NOT NULL,
+  `courseName` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `category` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'VL',
+  PRIMARY KEY (`id`),
+  KEY `category` (`category`),
+  KEY `profId` (`profId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `questionnaire`
 --
 
-INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `Semester`, `courseName`, `category`) VALUES
-(3, 4, '2013-09-19', 'SoSe2013', '3D-Animation', 'VL');
+INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `courseName`, `category`) VALUES
+(3, 3, '2013-09-19', 'SoSe2013', '3D-Animation', 'VL');
 
 -- --------------------------------------------------------
 
@@ -112,21 +143,21 @@ INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `Semester`, `cour
 -- Tabellenstruktur für Tabelle `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
+  `username` varchar(12) COLLATE utf8_bin NOT NULL,
   `password` varchar(256) COLLATE utf8_bin NOT NULL,
   `role` varchar(12) COLLATE utf8_bin NOT NULL,
-  `username` varchar(12) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `password`, `role`, `username`) VALUES
-(2, '7dfe73130d621f720f9823dcdb8dbf4f583fa969', 'admin', 'plutka'),
-(3, 'admin', 'admin', 'admin');
+INSERT INTO `user` (`id`, `username`, `password`, `role`) VALUES
+(3, 'admin', 'admin', 'admin'),
+(4, 'user', 'user', 'user');
 
 --
 -- Constraints der exportierten Tabellen
@@ -144,6 +175,8 @@ ALTER TABLE `answertoquestion`
 ALTER TABLE `participant`
   ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`questionnaireId`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Constraints der Tabelle `questionnaire`
+--
+ALTER TABLE `questionnaire`
+  ADD CONSTRAINT `questionnaire_ibfk_1` FOREIGN KEY (`profId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
