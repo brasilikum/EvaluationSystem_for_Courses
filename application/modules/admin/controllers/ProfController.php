@@ -43,9 +43,16 @@ class Admin_ProfController extends Zend_Controller_Action
 			$profRow = $profRowset->current();
 			$questionnaires = $profRow->findDependentRowset('Application_Model_DbTable_QuestionnaireTable');
 
+			$today = date("Y-m-d");
+
+			echo 'Heute ist der';
+			echo $today;
+
 			foreach($questionnaires as $questionnaireFromProf){
+				if($questionnaireFromProf->expirationDate >= $today){
 				echo $questionnaireFromProf->courseName;
 				echo $questionnaireFromProf->expirationDate;
+			}
 			}
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
