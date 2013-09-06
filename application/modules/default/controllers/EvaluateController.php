@@ -25,7 +25,6 @@ class EvaluateController extends Zend_Controller_Action
 
 	public function evaluateAction()
 	{
-		$form = $this->generateForm();
 		$participantID = null;
 		$request = $this->getRequest();
 
@@ -33,44 +32,66 @@ class EvaluateController extends Zend_Controller_Action
 			$participantID = (int)$request->getParam('id');
 		}
 
+		//Get participant
 		$participants = $this->participantTable->find($participantID);
 		if (count($participants) > 0){
 			$participant = $participants->current();
+			//Get questionaire to participant
+			$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
+			if (count($questionnaires) > 0){
+				$questionnaire = $questionnaires->current();
+				//Get all questions
+				$allQuestions = $this->questionTable->fetchAll();
+				$categoryQuestions = array();
+				foreach($allQuestions as $question){
+					//Sort out questions who are not in the same category as questionaire
+					if($question->category == $questionnaire->category){
+						array_push($categoryQuestions, $question);
+					}
+				}
+				$this->view->form = $this->generateForm($categoryQuestions);
+			}
+		}else{
+			echo "Dieser Link ist ungültig oder die Evaluation über diesen Link wurde bereits abgeschlossen";
 		}
-
-		echo $participant->questionnaireId;
+		/*$participant->questionnaireId;
 
 		//echo sha1(uniqid(mt_rand(), true));
-
+		
+		$form = $this->generateForm();
 		$this->view->form = $form;
 
 		//zu participantID die entsprechende Evaluation suchen
-		//entspechendes Formular aufbauen
+		//entspechendes Formular aufbauen*/
 	}
 
-	private function generateForm()
-	{
-		$form = new Zend_Form;
-		$form->setMethod('post');
-		$nameElement = new Zend_Form_Element_Text(
-		'name', array('label' => 'Name'));
-		$nameElement->setRequired(true);
-		$nameElement->addFilter('StripTags');
+	private function generateForm($categoryQuestions = null)	{
+		if($categoryQuestions != null) {
+			echo "categoryQuestions !null";
+			$form = new Zend_Form;
+			$form->setMethod('post');
 
-		$radioElement = new Zend_Form_Element_Radio(
-		'radio', array('label' => 'Radio'));
-		$radioElement->setMultiOptions(array(0 => 0, 1, 2, 3, 4));
+			$courseElement = new Zend_Form_Element_Text(
+			'course', array('label' => 'Studiengang:'));
+			$courseElement->addFilter('StripTags');
 
-		$submitElement = new Zend_Form_Element_Submit(
-		'submit', array('label'=>'Speichern'));
+			$semesterElement = new Zend_Form_Element_Radio(
+			'semester', array('label' => 'Semester'));
+			$semesterElement->setMultiOptions(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
 
-		$elements = array($nameElement, 
-							$radioElement, 
-							$submitElement);
+			$submitElement = new Zend_Form_Element_Submit(
+			'submit', array('label'=>'Speichern'));
 
-		$form->addElements($elements);
+			$fixedElements = array($courseElement, 
+								$semesterElement, 
+								$submitElement);
 
-		return $form;
+			$form->addElements($fixedElements);
+
+			return $form;
+		} else {
+			echo "Keine Fragen ind der Kategorie des Fragebogens bekannt";
+		}
 	}
 
 }
