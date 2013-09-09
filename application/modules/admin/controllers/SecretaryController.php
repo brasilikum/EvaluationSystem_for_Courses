@@ -36,26 +36,37 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function questionnairesAction()
 	{
 
-			echo 'Ihre getätigten Umfragen';
+			echo 'Fertige Umfragen';
 		
 			//getting UserId and its denpendant rows
-			$profId = Application_Plugin_auth_AccessControl::getUserId();
-			$profRowset = $this->userTable->find($profId);
-			$profRow = $profRowset->current();
-			$questionnaires = $profRow->findDependentRowset('Application_Model_DbTable_QuestionnaireTable');
-
+	
+			$questionnaires = $this->questionnaireTable->fetchAll();
 			$today = date("Y-m-d");
+			$denpendantProfId;
+			$denpendantProfSet;
+			$denpendantProf;
 
-			//questionnaires from logged-in User are displayed
-			foreach($questionnaires as $questionnaireFromProf){
-				if($questionnaireFromProf->expirationDate >= $today){
-				echo $questionnaireFromProf->courseName;
-				echo $questionnaireFromProf->expirationDate;
-			}
+			//all questionnaires are displayed
+			foreach($questionnaires as $questionnaire){
+				if($questionnaire->expirationDate < $today){
+				$denpendantProfId =  $questionnaire->profId;
+				$denpendantProfSet = $this->userTable->find($denpendantProfId);
+				$denpendantProf = $denpendantProfSet->current();
+				echo $denpendantProf->username;
+				echo $questionnaire->courseName;
+				echo '('. $questionnaire->category. ')';
+				echo $questionnaire->expirationDate;
+				echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
+
+
 			}
 
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/create\'>Neue Umfrage erstellen</a></div><br/>';
+			
+			}
+
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+
+		
 			
 			
 			
@@ -82,7 +93,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 				$newQuestionnaire->save();
 
-				echo 'Es hat geklappt!';
+
 
 				$this->_redirect('/admin/prof/questionnaires');
 			}
@@ -122,6 +133,22 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 	}
 
+	public function deleteAction()
+	{
+		$id = $this->getRequest()->getParam('id');
+
+
+		$where = $this->questionnaireTable->find($id);
+		$row = $where->current();
+
+
+			
+		$row->delete();		
+
+		$this->_redirect('/admin/secretary/questionnaires');
+			
+
+	}
 	
 
 	

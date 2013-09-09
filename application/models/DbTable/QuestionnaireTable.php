@@ -9,7 +9,7 @@ class Application_Model_DbTable_QuestionnaireTable extends Zend_Db_Table_Abstrac
 			'columns'		=>	'profId',
 			'refTableClass'	=>	'Application_Model_DbTable_UserTable',
 			'refColums'		=>	'id',
-			'onDelete'		=>	self::CASCADE
+			'onDelete'		=>	self::RESTRICT
 			)
 		);
 

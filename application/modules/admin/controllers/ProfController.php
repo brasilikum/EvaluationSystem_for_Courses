@@ -50,6 +50,7 @@ class Admin_ProfController extends Zend_Controller_Action
 			foreach($questionnaires as $questionnaireFromProf){
 				if($questionnaireFromProf->expirationDate >= $today){
 				echo $questionnaireFromProf->courseName;
+				echo '('. $questionnaireFromProf->category.')';
 				echo $questionnaireFromProf->expirationDate;
 			}
 			}
