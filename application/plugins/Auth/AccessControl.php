@@ -91,7 +91,7 @@ class Application_Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstr
         				Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/prof');
         			}
         			if(Application_Plugin_auth_AccessControl::getUserRole() == 'user'){
-        				Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/index');
+        				Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector')->gotoUrl('admin/secretary');
         			}
 
 				}

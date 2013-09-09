@@ -1,6 +1,6 @@
 <?php
 
-class Admin_ProfController extends Zend_Controller_Action
+class Admin_SecretaryController extends Zend_Controller_Action
 {
 
 	protected $answerToQuestionTable;
@@ -24,7 +24,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 		
 		
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>Umfragen</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
@@ -54,7 +54,7 @@ class Admin_ProfController extends Zend_Controller_Action
 			}
 			}
 
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/create\'>Neue Umfrage erstellen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
