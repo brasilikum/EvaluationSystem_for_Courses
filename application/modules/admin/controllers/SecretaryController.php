@@ -56,6 +56,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 				echo $questionnaire->courseName;
 				echo '('. $questionnaire->category. ')';
 				echo $questionnaire->expirationDate;
+				echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
 				echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
 
 
@@ -149,6 +150,23 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			
 
 	}
+
+		public function showAction()
+	{
+
+			$id = $this->getRequest()->getParam('id');
+
+			echo $id;
+		
+		
+			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'>zurück</a></div><br/>';
+			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			
+			
+			
+
+	}
+
 	
 
 	
