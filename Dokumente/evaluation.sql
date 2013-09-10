@@ -1,18 +1,26 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.7
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Erstellungszeit: 06. Sep 2013 um 16:11
--- Server Version: 5.5.29
--- PHP-Version: 5.4.10
+-- Host: 127.0.0.1
+-- Erstellungszeit: 10. Sep 2013 um 12:09
+-- Server Version: 5.6.11
+-- PHP-Version: 5.5.3
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
--- Datenbank: `Evaluation`
+-- Datenbank: `evaluation`
 --
+CREATE DATABASE IF NOT EXISTS `evaluation` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `evaluation`;
 
 -- --------------------------------------------------------
 
@@ -20,15 +28,67 @@ SET time_zone = "+00:00";
 -- Tabellenstruktur für Tabelle `answertoquestion`
 --
 
-CREATE TABLE `answertoquestion` (
-  `id` int(12) NOT NULL,
-  `answertext` varchar(1024) CHARACTER SET utf8 NOT NULL,
+CREATE TABLE IF NOT EXISTS `answertoquestion` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `answertext` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
   `questionId` int(12) NOT NULL,
-  `answernumber` int(2) NOT NULL,
+  `answernumber` int(2) DEFAULT NULL,
+  `answerhash` varchar(52) COLLATE utf8_bin NOT NULL,
+  `questionnaireid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `answertext` (`answertext`(255)),
   KEY `questionId` (`questionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=165 ;
+
+--
+-- Daten für Tabelle `answertoquestion`
+--
+
+INSERT INTO `answertoquestion` (`id`, `answertext`, `questionId`, `answernumber`, `answerhash`, `questionnaireid`) VALUES
+(121, NULL, 69, NULL, '', 3),
+(122, NULL, 70, NULL, '', 3),
+(123, NULL, 71, NULL, '', 3),
+(124, NULL, 72, NULL, '', 3),
+(125, NULL, 73, NULL, '', 3),
+(126, NULL, 74, 0, '', 3),
+(127, NULL, 75, 1, '', 3),
+(128, NULL, 76, 2, '', 3),
+(129, NULL, 77, 3, '', 3),
+(130, NULL, 78, NULL, '', 3),
+(131, '', 79, NULL, '', 3),
+(132, NULL, 80, 1, '', 3),
+(133, '1,1', 81, NULL, '', 3),
+(134, 'ad', 82, NULL, '', 3),
+(135, NULL, 83, NULL, '', 3),
+(136, NULL, 84, 2, '', 3),
+(137, NULL, 88, 1, '', 3),
+(138, NULL, 59, NULL, '', 3),
+(139, NULL, 60, 1, '', 3),
+(140, NULL, 61, NULL, '', 3),
+(141, NULL, 62, 2, '', 3),
+(142, NULL, 63, NULL, '', 3),
+(143, NULL, 64, 4, '', 3),
+(144, NULL, 65, NULL, '', 3),
+(145, NULL, 66, 4, '', 3),
+(146, NULL, 67, NULL, '', 3),
+(147, NULL, 68, 1, '', 3),
+(148, NULL, 69, NULL, '', 3),
+(149, NULL, 70, 1, '', 3),
+(150, NULL, 71, NULL, '', 3),
+(151, NULL, 72, 2, '', 3),
+(152, NULL, 73, NULL, '', 3),
+(153, NULL, 74, 1, '', 3),
+(154, NULL, 75, 4, '', 3),
+(155, NULL, 76, NULL, '', 3),
+(156, NULL, 77, 3, '', 3),
+(157, NULL, 78, NULL, '', 3),
+(158, '', 79, NULL, '', 3),
+(159, NULL, 80, 2, '', 3),
+(160, 'note radsa', 81, NULL, '', 3),
+(161, 'asdafasdölfkaödlkafjödfa', 82, NULL, '', 3),
+(162, NULL, 83, 2, '', 3),
+(163, NULL, 84, 2, '', 3),
+(164, NULL, 88, NULL, '', 3);
 
 -- --------------------------------------------------------
 
@@ -36,7 +96,7 @@ CREATE TABLE `answertoquestion` (
 -- Tabellenstruktur für Tabelle `participant`
 --
 
-CREATE TABLE `participant` (
+CREATE TABLE IF NOT EXISTS `participant` (
   `hash` varchar(48) COLLATE utf8_bin NOT NULL,
   `questionnaireId` int(12) NOT NULL,
   PRIMARY KEY (`hash`),
@@ -57,7 +117,7 @@ INSERT INTO `participant` (`hash`, `questionnaireId`) VALUES
 -- Tabellenstruktur für Tabelle `question`
 --
 
-CREATE TABLE `question` (
+CREATE TABLE IF NOT EXISTS `question` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `text` varchar(1024) NOT NULL,
   `category` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'VL',
@@ -118,7 +178,7 @@ INSERT INTO `question` (`id`, `text`, `category`, `type`) VALUES
 -- Tabellenstruktur für Tabelle `questionnaire`
 --
 
-CREATE TABLE `questionnaire` (
+CREATE TABLE IF NOT EXISTS `questionnaire` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `profId` int(12) NOT NULL,
   `expirationDate` date NOT NULL,
@@ -143,7 +203,7 @@ INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `cour
 -- Tabellenstruktur für Tabelle `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `username` varchar(12) COLLATE utf8_bin NOT NULL,
   `password` varchar(256) COLLATE utf8_bin NOT NULL,
@@ -180,3 +240,7 @@ ALTER TABLE `participant`
 --
 ALTER TABLE `questionnaire`
   ADD CONSTRAINT `questionnaire_ibfk_1` FOREIGN KEY (`profId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
