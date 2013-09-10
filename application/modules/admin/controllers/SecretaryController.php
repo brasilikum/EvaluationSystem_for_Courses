@@ -156,9 +156,39 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 			$id = $this->getRequest()->getParam('id');
 
-			echo $id;
-		
-		
+			$where = $this->questionnaireTable->find($id);
+			$row = $where->current();
+
+			$answersToQuestion = $row->findDependentRowset('Application_Model_DbTable_AnswerToQuestionTable');
+			$questions = $this->questionTable->fetchAll();
+
+			foreach ($questions as $question) {
+				if($question->category == $row->category){
+					if($question->type == 'radio'){
+						$counter = 0;
+						$value = 0;
+					}
+					echo '<h1>'.$question->text.'</h1>';
+					foreach ($answersToQuestion as $answerToQuestion) {	
+						if($answerToQuestion->questionId == $question->id){
+							if($answerToQuestion->answertext){
+								echo $answerToQuestion->answertext;
+							}else{
+								if($answerToQuestion->answernumber > 0){
+								$counter++;
+								$value = $value + $answerToQuestion->answernumber;
+								}
+							}
+						}	
+					 }
+					 if($counter > 0){
+					 	$value = $value/$counter;
+					 	echo 'Durchschnitt: '.$value.'';
+					 }
+			}
+		}
+			
+			
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'>zurück</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			

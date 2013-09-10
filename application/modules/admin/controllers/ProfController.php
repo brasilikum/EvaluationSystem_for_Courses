@@ -67,6 +67,7 @@ class Admin_ProfController extends Zend_Controller_Action
 	{
 		$form = $this->_getCreationForm();
 		$request = $this->getRequest();
+		$emails;
 
 		if ($request->isPost())
 		{
@@ -78,14 +79,24 @@ class Admin_ProfController extends Zend_Controller_Action
 				$newQuestionnaire->expirationDate = $form->getValue('expirationDate');
 				$newQuestionnaire->semester = $form->getValue('semester');
 				$newQuestionnaire->category = $form->getValue('category');
+				$emails = $form->getValue('emails');
 				$newQuestionnaire->profId = Application_Plugin_auth_AccessControl::getUserId();
 				
 
 				$newQuestionnaire->save();
 
-				echo 'Es hat geklappt!';
+			     $tok = strtok($emails,',');
+			     $emailAdresses = array();
+			     $counter = 0;
 
-				$this->_redirect('/admin/prof/questionnaires');
+			     while($tok){
+			     	$emailAdresses[$counter] = $tok;
+			     	echo $emailAdresses[$counter];
+			     	$tok = strtok(',');
+			     }
+
+
+				//$this->_redirect('/admin/prof/questionnaires');
 			}
 		}	
 
@@ -115,9 +126,10 @@ class Admin_ProfController extends Zend_Controller_Action
 
 		$category = new Zend_Form_Element_Text('category', array('label' => 'VL oder PR', 'required' => true));
 		
+		$emails = new Zend_Form_Element_Textarea('emails', array('label' => 'E-Mail-Adressen', 'required' => true));
 
 		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Abschicken'));
-		$form->addElements(array($courseName, $semester, $category,$expirationDate, $submit));
+		$form->addElements(array($courseName, $semester, $category,$expirationDate,$emails, $submit));
 
 		return $form;
 
