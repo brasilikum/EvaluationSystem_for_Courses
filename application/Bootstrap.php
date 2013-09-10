@@ -32,6 +32,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $acl = new Application_Plugin_Auth_Acl();
        $this->getResource('frontController')->registerPlugin(new Application_Plugin_Auth_AccessControl($auth, $acl))->setParam('auth', $auth);
     }
-    
-}
 
+    protected function _initMail(){
+        try {
+            $config = array(
+                'auth' => 'login',
+                'username' => 'hsosnaevaluation@gmail.com',
+                'password' => '06071991',
+                'ssl' => 'tls',
+                'port' => 587
+            );
+
+            $mailTransport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+            Zend_Mail::setDefaultTransport($mailTransport);
+        } catch (Zend_Exception $e){
+            //Do something with exception
+        }
+    }  
+}

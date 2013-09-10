@@ -27,13 +27,15 @@ class EvaluateController extends Zend_Controller_Action
 		$questionnaire = null;		//questionnaire Object from DB
 		$categoryQuestions = array();
 
-		
-		if ($request->isGet()){				//Incoming link from Email
+		//Incoming link from Email
+		if ($request->isGet()){				
 			$participantID = $request->getParam('id');
-		}else if ($request->isPost()){		//Save
+		//Save
+		}else if ($request->isPost()){		
 			echo "post ";
 			$participantID = $request->getParam('participantID');
 		}
+		//Is valid sha1
 		if ((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID)){
 			$participants = $this->participantTable->find($participantID);
 			if (count($participants) > 0){
@@ -42,6 +44,12 @@ class EvaluateController extends Zend_Controller_Action
 				$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
 				if (count($questionnaires) > 0){
 					$questionnaire = $questionnaires->current();
+					$today = date("Y-m-d");
+					//Check if questionnaire still running
+					if($today > $questionnaire->expirationDate){
+						$this->view->error = "Diese Evaluation ist beendet";
+						return false;
+					}
 					//Get all questions
 					$allQuestions = $this->questionTable->fetchAll();
 					$i = 0;
@@ -57,26 +65,42 @@ class EvaluateController extends Zend_Controller_Action
 					if ($request->isGet()){
 						$this->view->form = $form;
 					} else if ($request->isPost()){
+						$answerhash = sha1(uniqid(mt_rand(), true));
 						$form->populate($this->_request->getPost());
 						foreach($categoryQuestions as $question){
 							$answer = $this->answerToQuestionTable->createRow();
 							$answer->questionId = $question->id;
 							$answer->questionnaireid = $questionnaire->id;
+							$answer->answerhash = $answerhash;
 							if($question->type == "radio"){
 								$answer->answernumber = $form->getValue($question->id);
 							} else if($question->type == "text"){
 								$answer->answertext = $form->getValue($question->id);
-								
 							}
 							$answer->save();
 						}
+						$courseAnswer = $this->answerToQuestionTable->createRow();
+						$courseAnswer->questionId = 1;
+						$courseAnswer->questionnaireid = $questionnaire->id;
+						$courseAnswer->answerhash = $answerhash;
+						$courseAnswer->answertext = $form->getValue("course");
+						$courseAnswer->save();
+
+						$semesterAnswer = $this->answerToQuestionTable->createRow();
+						$semesterAnswer->questionId = 2;
+						$semesterAnswer->questionnaireid = $questionnaire->id;
+						$semesterAnswer->answerhash = $answerhash;
+						$semesterAnswer->answernumber = $form->getValue("semester");
+						$semesterAnswer->save();
+
+						$this->deleteParticipant($participantID);
 						$this->view->formsaved = true;	
 					}
 				} else {	//(count($questionnaires) > 0)
 					$this->view->error = "No questionnaire found";
 				}
 			} else {	//(count($participants) > 0)
-				$this->view->error = "Hash not found";
+				$this->view->error = "Der Evaluationszeitraum ist beendet oder die Evaluation über diesen Link wurde bereits abgeschlossen";
 			}
 		} else {	//((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID))
 			$this->view->error = "No hash found or hash invalid";
@@ -124,5 +148,16 @@ class EvaluateController extends Zend_Controller_Action
 		$form->addElement($submitElement, 'submit');
 
 		return $form;
+	}
+
+	private function deleteParticipant($participantID){
+		$participants = $this->participantTable->find($participantID);
+		$participant = $participants->current();
+		$participant->delete();
+		$participants = $this->participantTable->find($participantID);
+		if(count($participants) > 0){
+			return false;
+		}
+		return true;
 	}
 }
