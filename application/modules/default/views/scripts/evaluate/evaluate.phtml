@@ -1,2 +1,9 @@
-Evaluate evaluate
-<?php echo $this->form; ?>
+<?php 
+if($this->formsaved == true){
+	echo "Success saving your Form";
+}else if($this->form){
+	echo $this->form;
+}else{
+	echo $this->error;
+}
+?>

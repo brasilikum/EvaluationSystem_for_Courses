@@ -27,33 +27,64 @@ class EvaluateController extends Zend_Controller_Action
 		$questionnaire = null;		//questionnaire Object from DB
 		$categoryQuestions = array();
 
-		//Incoming link from Email
-		if ($request->isGet()){
+		
+		if ($request->isGet()){				//Incoming link from Email
 			$participantID = $request->getParam('id');
-		}else if ($request->isPost()){
+		}else if ($request->isPost()){		//Save
 			echo "post ";
 			$participantID = $request->getParam('participantID');
 		}
-		$participants = $this->participantTable->find($participantID);
-		if (count($participants) > 0){
-			$participant = $participants->current();
-		}
-		//Get questionnaire to participant
-		$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
-		if (count($questionnaires) > 0){
-			$questionnaire = $questionnaires->current();
-		}
-		//Get all questions
-		$allQuestions = $this->questionTable->fetchAll();
-		$i = 0;
-		foreach($allQuestions as $question){
-			//Sort out questions who are not in the same category as questionnaire
-			if($question->category == $questionnaire->category){
-				$categoryQuestions[$i]  = $question;
-				$i = $i + 1;
+		if ((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID)){
+			$participants = $this->participantTable->find($participantID);
+			if (count($participants) > 0){
+				$participant = $participants->current();
+				//Get questionnaire to participant
+				$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
+				if (count($questionnaires) > 0){
+					$questionnaire = $questionnaires->current();
+					//Get all questions
+					$allQuestions = $this->questionTable->fetchAll();
+					$i = 0;
+					foreach($allQuestions as $question){
+						//Sort out questions who are not in the same category as questionnaire
+						if($question->category == $questionnaire->category){
+							$categoryQuestions[$i]  = $question;
+							$i = $i + 1;
+						}
+					}
+					$form = $this->generateForm($participantID, $categoryQuestions);
+		
+					if ($request->isGet()){
+						$this->view->form = $form;
+					} else if ($request->isPost()){
+						$form->populate($this->_request->getPost());
+						foreach($categoryQuestions as $question){
+							$answer = $this->answerToQuestionTable->createRow();
+							$answer->questionId = $question->id;
+							$answer->questionnaireid = $questionnaire->id;
+							if($question->type == "radio"){
+								$answer->answernumber = $form->getValue($question->id);
+							} else if($question->type == "text"){
+								$answer->answertext = $form->getValue($question->id);
+								
+							}
+							$answer->save();
+						}
+						$this->view->formsaved = true;	
+					}
+				} else {	//(count($questionnaires) > 0)
+					$this->view->error = "No questionnaire found";
+				}
+			} else {	//(count($participants) > 0)
+				$this->view->error = "Hash not found";
 			}
-		}
+		} else {	//((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID))
+			$this->view->error = "No hash found or hash invalid";
+		}		
+		
+	}
 
+	private function generateForm($participantID, $categoryQuestions){
 		$form = new Zend_Form;
 		$form->setMethod('post');
 
@@ -66,7 +97,7 @@ class EvaluateController extends Zend_Controller_Action
 
 		$semesterElement = new Zend_Form_Element_Multiselect(
 		'semester', array('label' => 'Semester'));
-		$semesterElement->setMultiOptions(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+		$semesterElement->setMultiOptions(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
 
 		$fixedElements = array(	$parIDElement,
 								$courseElement, 
@@ -92,22 +123,6 @@ class EvaluateController extends Zend_Controller_Action
 
 		$form->addElement($submitElement, 'submit');
 
-		if ($request->isGet()){
-			$this->view->form = $form;
-		} else if ($request->isPost()){
-			$form->populate($this->_request->getPost());
-			foreach($categoryQuestions as $question){
-				$answer = $this->answerToQuestionTable->createRow();
-				$answer->questionId = $question->id;
-				$answer->questionnaireid = $questionnaire->id;
-				if($question->type == "radio"){
-					$answer->answernumber = $form->getValue($question->id);
-				} else if($question->type == "text"){
-					$answer->answertext = $form->getValue($question->id);
-					
-				}
-				$answer->save();
-			}	
-		}
+		return $form;
 	}
 }
