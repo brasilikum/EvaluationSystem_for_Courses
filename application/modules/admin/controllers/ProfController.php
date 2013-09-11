@@ -166,7 +166,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 			     	$modulname = $this->questionnaireTable->find($questionnaireId)->current()->courseName;
 
-			     	echo $answerhash .' to ' . $address;
+			   
 			     	$newParticipant->save();
 
 			     	$mail->setBodyText('Lieber Student,
@@ -179,7 +179,7 @@ class Admin_ProfController extends Zend_Controller_Action
 			     	
 			     }
 
-			    //$this->_redirect('/admin/prof/questionnaires');
+			    $this->_redirect('/admin/prof/questionnaires');
 	}
 	
 
