@@ -84,6 +84,8 @@ class EvaluateController extends Zend_Controller_Action
 						$semesterAnswer->questionnaireId = $questionnaire->id;
 						$semesterAnswer->answerhash = $answerhash;
 						$semesterAnswer->answernumber = $form->getValue("semester");
+						$array = $form->getValue("semester");
+						echo '0: '.$array[0];
 						$semesterAnswer->save();
 
 						$semesterAnswer = $this->answerToQuestionTable->createRow();
@@ -125,15 +127,13 @@ class EvaluateController extends Zend_Controller_Action
 		'course', array('label' => 'Studiengang:'));
 		$courseElement->addFilter('StripTags');
 
-		$semesterElement = new Zend_Form_Element_Multiselect(
+		$semesterElement = new Zend_Form_Element_Select(
 		'semester', array('label' => 'Semester:'));
 		$semesterElement->setMultiOptions(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
-		$semesterElement->setRegisterInArrayValidator(false);
 
-		$visitedElement = new Zend_Form_Element_Multiselect(
+		$visitedElement = new Zend_Form_Element_Select(
 		'visited', array('label' => '% der Veranstaltung besucht:'));
 		$visitedElement->setMultiOptions(array(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
-		$visitedElement->setRegisterInArrayValidator(false);
 
 		$fixedElements = array(	$parIDElement,
 								$courseElement, 
@@ -154,7 +154,7 @@ class EvaluateController extends Zend_Controller_Action
 				$element->addFilter('StripTags');
 				$form->addElement($element, $question->id);
 			}  else if($question->type == "musel"){
-				$element = new Zend_Form_Element_Multiselect(
+				$element = new Zend_Form_Element_Select(
 				$question->id, array('label' => $question->text));
 				$element->setMultiOptions(array(1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0));
 				$form->addElement($element, $question->id);
