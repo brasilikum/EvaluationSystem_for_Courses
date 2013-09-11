@@ -33,3 +33,8 @@ dl.zend_form dd ul.errors li {
 .clear {
 	clear:both;
 }
+
+body {
+	margin: 0 auto;
+	width: 600px;
+}

@@ -63,7 +63,7 @@ class EvaluateController extends Zend_Controller_Action
 						foreach($categoryQuestions as $question){
 							$answer = $this->answerToQuestionTable->createRow();
 							$answer->questionId = $question->id;
-							$answer->questionnaireid = $questionnaire->id;
+							$answer->questionnaireId = $questionnaire->id;
 							$answer->answerhash = $answerhash;
 							if($question->type == "radio"){
 								$answer->answernumber = $form->getValue($question->id);
@@ -74,21 +74,21 @@ class EvaluateController extends Zend_Controller_Action
 						}
 						$courseAnswer = $this->answerToQuestionTable->createRow();
 						$courseAnswer->questionId = 1;
-						$courseAnswer->questionnaireid = $questionnaire->id;
+						$courseAnswer->questionnaireId = $questionnaire->id;
 						$courseAnswer->answerhash = $answerhash;
 						$courseAnswer->answertext = $form->getValue("course");
 						$courseAnswer->save();
 
 						$semesterAnswer = $this->answerToQuestionTable->createRow();
 						$semesterAnswer->questionId = 2;
-						$semesterAnswer->questionnaireid = $questionnaire->id;
+						$semesterAnswer->questionnaireId = $questionnaire->id;
 						$semesterAnswer->answerhash = $answerhash;
 						$semesterAnswer->answernumber = $form->getValue("semester");
 						$semesterAnswer->save();
 
 						$semesterAnswer = $this->answerToQuestionTable->createRow();
 						$semesterAnswer->questionId = 3;
-						$semesterAnswer->questionnaireid = $questionnaire->id;
+						$semesterAnswer->questionnaireId = $questionnaire->id;
 						$semesterAnswer->answerhash = $answerhash;
 						$semesterAnswer->answernumber = $form->getValue("visited");
 						$semesterAnswer->save();
