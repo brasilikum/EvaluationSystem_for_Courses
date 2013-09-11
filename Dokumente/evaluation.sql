@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 11. Sep 2013 um 15:50
+-- Erstellungszeit: 11. Sep 2013 um 16:09
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -31,7 +31,7 @@ CREATE TABLE `answertoquestion` (
   KEY `answertext` (`answertext`(255)),
   KEY `questionId` (`questionId`),
   KEY `questionnaireId` (`questionnaireId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=245 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=273 ;
 
 --
 -- Daten für Tabelle `answertoquestion`
@@ -65,7 +65,35 @@ INSERT INTO `answertoquestion` (`id`, `answertext`, `questionId`, `questionnaire
 (241, NULL, 84, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
 (242, NULL, 88, 27, 1, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
 (243, 'Medieninformatik', 1, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(244, NULL, 2, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10');
+(244, NULL, 2, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
+(245, NULL, 59, 27, 2, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(246, NULL, 60, 27, 1, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(247, NULL, 61, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(248, NULL, 62, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(249, NULL, 63, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(250, NULL, 64, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(251, NULL, 65, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(252, NULL, 66, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(253, NULL, 67, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(254, NULL, 68, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(255, NULL, 69, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(256, NULL, 70, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(257, NULL, 71, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(258, NULL, 72, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(259, NULL, 73, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(260, NULL, 74, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(261, NULL, 75, 27, 1, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(262, NULL, 76, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(263, NULL, 77, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(264, NULL, 78, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(265, '12', 79, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(266, NULL, 81, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(267, 'huuuuu', 82, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(268, 'huuuuu', 83, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(269, 'huuuuu', 84, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(270, NULL, 88, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(271, 'Medieninformatik', 1, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
+(272, NULL, 2, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a');
 
 -- --------------------------------------------------------
 
@@ -94,7 +122,6 @@ INSERT INTO `participant` (`hash`, `questionnaireId`) VALUES
 ('3fc9ff86751934466f053ffcb99a46e469bc39a3', 24),
 ('047a9d26b99a75a0e16a34022fd84f5f65fda0ee', 25),
 ('e7a4bd0a2d8fac9ecd624d9dd4b48d4c28b94fc8', 26),
-('623593cb3f696b07b08ea20e8dbf369b94422031', 27),
 ('b77a8e7b8b9f8cf10a8350be00a332a2559557ef', 27),
 ('cdc148dff455baf847529b5aaf2acd31bc55b971', 27),
 ('d562fc5b10ae148f881089abcea4a6866f71682b', 27),
@@ -145,7 +172,7 @@ INSERT INTO `question` (`id`, `text`, `category`, `type`, `prio`) VALUES
 (76, 'Ich lerne viel in der Veranstaltung', 'VL', 'radio', 0),
 (77, 'Die aktive Beteiligung der Studierenden bewerte ich als sehr gut', 'VL', 'radio', 0),
 (78, 'Die Ausstattung der Hörsäle ist sehr gut', 'VL', 'radio', 0),
-(79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 'text', 0),
+(79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 'musel', 0),
 (81, 'Ich gebe der Vorlesung die Gesamtnote(Noten von 1 bis 5)', 'VL', 'musel', 0),
 (82, 'Ich gebe diese Note weil', 'VL', 'text', 0),
 (83, 'Mir hat besonders gefallen', 'VL', 'text', 0),
@@ -159,7 +186,7 @@ INSERT INTO `question` (`id`, `text`, `category`, `type`, `prio`) VALUES
 (91, 'Der Umfang der Versuche/Übungen ist angemessen', 'PR', 'radio', 0),
 (92, 'Die selbstständige Durchführung der Versuche/Übungen wird gefördert', 'PR', 'radio', 0),
 (93, 'Das Feedback ist hilfreich', 'PR', 'radio', 0),
-(94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 'text', 0),
+(94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 'musel', 0),
 (95, 'Ich gebe dem Praktikum die Gesamtnote', 'PR', 'musel', 0),
 (96, 'Ich gebe diese Note weil', 'PR', 'text', 0),
 (97, 'Mir hat besonders gefallen', 'PR', 'text', 0),
@@ -194,7 +221,7 @@ INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `cour
 (24, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
 (25, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
 (26, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
-(27, 5, '2013-09-13', 'SoSe 2013', 'Apple Für Dummies', 'VL'),
+(27, 5, '2013-09-10', 'SoSe 2013', 'Apple Für Dummies', 'VL'),
 (28, 5, '2013-09-13', 'SoSe 2013', 'Penis', 'PR');
 
 -- --------------------------------------------------------
