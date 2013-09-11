@@ -128,10 +128,12 @@ class EvaluateController extends Zend_Controller_Action
 		$semesterElement = new Zend_Form_Element_Multiselect(
 		'semester', array('label' => 'Semester:'));
 		$semesterElement->setMultiOptions(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+		$semesterElement->setRegisterInArrayValidator(false);
 
 		$visitedElement = new Zend_Form_Element_Multiselect(
 		'visited', array('label' => '% der Veranstaltung besucht:'));
 		$visitedElement->setMultiOptions(array(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
+		$visitedElement->setRegisterInArrayValidator(false);
 
 		$fixedElements = array(	$parIDElement,
 								$courseElement, 
@@ -144,7 +146,7 @@ class EvaluateController extends Zend_Controller_Action
 				$element = new Zend_Form_Element_Radio(
 				$question->id, array('label' => $question->text));
 				$element->setMultiOptions(array('0' => "keine Angabe", '1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu"));
-				$element->setValue(array("0"));
+				$element->setValue(array(0));
 				$form->addElement($element, $question->id);
 			} else if($question->type == "text"){
 				$element = new Zend_Form_Element_Text(
