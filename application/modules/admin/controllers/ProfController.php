@@ -7,6 +7,7 @@ class Admin_ProfController extends Zend_Controller_Action
 	protected $questionTable;
 	protected $questionnaireTable;
 	protected $userTable;
+	protected $participantTable;
 
 
 	public function init()
@@ -15,6 +16,7 @@ class Admin_ProfController extends Zend_Controller_Action
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
 		$this->userTable = new Application_Model_DbTable_UserTable();
+		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
 		
 			
 	}
@@ -106,24 +108,23 @@ class Admin_ProfController extends Zend_Controller_Action
 			     	$counter++;
 			     }
 
-			     foreach($emails as $email){
-			     	$answerhash = sha1(uniqid(mt_rand(), true));
-			     }
+			  
 
-			     $newQuestionnaire->save();
-
+			     $questionnaireId = $newQuestionnaire->save();
+	
 
 
-				$this->_redirect('/admin/prof/questionnaires');
+
+				$this->_sendMails($questionnaireId,$emailAdresses);
 			}
 		}	
 
-			$this->view->form = $this->_getCreationForm();
+		$this->view->form = $this->_getCreationForm();
 			
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
-			
-			$this->view->form = $form;
+		echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
+		echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+				
+		$this->view->form = $form;
 			
 
 	}
@@ -153,6 +154,33 @@ class Admin_ProfController extends Zend_Controller_Action
 
 	}
 
+	public function _sendMails($questionnaireId, $mailAdresses){
+
+		foreach($mailAdresses as $address){
+			     	$mail = new Zend_Mail();
+			     	$answerhash = sha1(uniqid(mt_rand(), true));
+			     	$newParticipant = $this->participantTable->createRow();
+
+			     	$newParticipant->hash = $answerhash;
+			     	$newParticipant->questionnaireId = $questionnaireId;
+
+			     	$modulname = $this->questionnaireTable->find($questionnaireId)->current()->courseName;
+
+
+			     	$newParticipant->save();
+
+			     	$mail->setBodyText('Lieber Student,
+
+			   			Klicken Sie auf den nachfolgenden Link um das Modul zu bewerten.
+			     		http://localhost:8888/EvaluationSystem_for_Courses/public/evaluate/evaluate?id='.$answerhash.'')
+    					 ->addTo($address)
+    					 ->setSubject('Evaluation des Moduls '.$modulname.'')
+  						 ->send();
+			     	
+			     }
+
+			    $this->_redirect('/admin/prof/questionnaires');
+	}
 	
 
 	
