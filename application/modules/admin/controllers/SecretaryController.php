@@ -227,7 +227,8 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 
 		$submitters =  $this->submittersTable
-						    ->fetchAll();
+						    ->fetchAll($this->submittersTable->select()
+							      ->where('questionnaireId = ?', $questionnaireId));
 
 		$questionIds[0] = 1;
 		$questionIds[1] = 2;
