@@ -1,9 +1,25 @@
-<?php 
-if($this->formsaved == true){
-	echo "Success saving your Form";
-}else if($this->form){
-	echo $this->form;
-}else{
-	echo $this->error;
-}
-?>
+<!DOCTYPE HTML>
+<html>
+<body>
+	<header>
+		<h1>EvalOs</h1>
+		<h2>Das Evaluationssystem der HS Osnabrück</h2>
+	</header>
+		<?php 
+		if($this->formsaved == true){
+			echo "Success saving your Form";
+		}else if($this->form){
+			echo '<section>
+				<div>Veranstaltung: ' .$this->questName .'</div>
+				<div>Professor: ' .$this->profName .'</div>
+				<div>Semester: ' .$this->questSemester .'</div>';
+			echo $this->form;
+			echo '</section>';
+		}else{
+			echo $this->error;
+		}
+		?>
+</body>
+</html> 
+
+

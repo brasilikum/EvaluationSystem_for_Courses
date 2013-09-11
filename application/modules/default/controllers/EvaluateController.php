@@ -8,13 +8,11 @@ class EvaluateController extends Zend_Controller_Action
 	protected $questionnaireTable;
 	protected $participantTable;
 
-	public function init()
-	{
+	public function init(){
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
-		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
-			
+		$this->participantTable = new Application_Model_DbTable_ParticipantTable();			
 	}
 
 	public function indexAction(){
@@ -50,11 +48,14 @@ class EvaluateController extends Zend_Controller_Action
 						$this->view->error = "Diese Evaluation ist beendet";
 						return false;
 					}
-					$categoryQuestions = $this->questionTable->fetchAll($this->questionTable->select()->where('category = ?', $questionnaire->category));
+					$categoryQuestions = $this->questionTable->fetchAll($this->questionTable->select()
+						->where('category = ?', $questionnaire->category)
+						->order('prio DESC'));
 
 					$form = $this->generateForm($participantID, $categoryQuestions);
 		
 					if ($request->isGet()){
+						$this->generateDescr($questionnaire);
 						$this->view->form = $form;
 					} else if ($request->isPost()){
 						$answerhash = sha1(uniqid(mt_rand(), true));
@@ -66,7 +67,7 @@ class EvaluateController extends Zend_Controller_Action
 							$answer->answerhash = $answerhash;
 							if($question->type == "radio"){
 								$answer->answernumber = $form->getValue($question->id);
-							} else if($question->type == "text"){
+							} else {
 								$answer->answertext = $form->getValue($question->id);
 							}
 							$answer->save();
@@ -85,6 +86,13 @@ class EvaluateController extends Zend_Controller_Action
 						$semesterAnswer->answernumber = $form->getValue("semester");
 						$semesterAnswer->save();
 
+						$semesterAnswer = $this->answerToQuestionTable->createRow();
+						$semesterAnswer->questionId = 3;
+						$semesterAnswer->questionnaireid = $questionnaire->id;
+						$semesterAnswer->answerhash = $answerhash;
+						$semesterAnswer->answernumber = $form->getValue("visited");
+						$semesterAnswer->save();
+
 						$this->deleteParticipant($participantID);
 						$this->view->formsaved = true;	
 					}
@@ -100,6 +108,12 @@ class EvaluateController extends Zend_Controller_Action
 		
 	}
 
+	private function generateDescr($questionnaire){
+		$this->view->questName = $questionnaire->courseName;
+		$this->view->questSemester = $questionnaire->semester;
+		$this->view->profName = 'DummyName';
+	}
+
 	private function generateForm($participantID, $categoryQuestions){
 		$form = new Zend_Form;
 		$form->setMethod('post');
@@ -112,12 +126,17 @@ class EvaluateController extends Zend_Controller_Action
 		$courseElement->addFilter('StripTags');
 
 		$semesterElement = new Zend_Form_Element_Multiselect(
-		'semester', array('label' => 'Semester'));
+		'semester', array('label' => 'Semester:'));
 		$semesterElement->setMultiOptions(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+
+		$visitedElement = new Zend_Form_Element_Multiselect(
+		'visited', array('label' => '% der Veranstaltung besucht:'));
+		$visitedElement->setMultiOptions(array(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
 
 		$fixedElements = array(	$parIDElement,
 								$courseElement, 
-								$semesterElement);
+								$semesterElement,
+								$visitedElement);
 		$form->addElements($fixedElements);
 
 		foreach($categoryQuestions as $question){
@@ -130,6 +149,11 @@ class EvaluateController extends Zend_Controller_Action
 				$element = new Zend_Form_Element_Text(
 				$question->id, array('label' => $question->text));
 				$element->addFilter('StripTags');
+				$form->addElement($element, $question->id);
+			}  else if($question->type == "musel"){
+				$element = new Zend_Form_Element_Multiselect(
+				$question->id, array('label' => $question->text));
+				$element->setMultiOptions(array(1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0));
 				$form->addElement($element, $question->id);
 			}
 		}
