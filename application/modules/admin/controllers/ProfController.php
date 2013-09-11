@@ -67,12 +67,20 @@ class Admin_ProfController extends Zend_Controller_Action
 	{
 		$form = $this->_getCreationForm();
 		$request = $this->getRequest();
+		$id = $this->getRequest()->getParam('id');
 		$emails;
+
+		if($id){
+			echo 'Emailadressen falsch, bitte neu eingeben';
+		}
+
 
 		if ($request->isPost())
 		{
+
 			if ($form->isValid($_POST))
 			{
+				$validator = new Zend_Validate_EmailAddress();
 				$newQuestionnaire = $this->questionnaireTable->createRow();
 
 				$newQuestionnaire->courseName = $form->getValue('courseName');
@@ -83,20 +91,26 @@ class Admin_ProfController extends Zend_Controller_Action
 				$newQuestionnaire->profId = Application_Plugin_auth_AccessControl::getUserId();
 				
 
-				$newQuestionnaire->save();
 
 			     $tok = strtok($emails,',');
 			     $emailAdresses = array();
 			     $counter = 0;
 
 			     while($tok){
-			     	$emailAdresses[$counter] = $tok;
-			     	echo $emailAdresses[$counter];
+			     	if($validator->isValid($tok)){
+			     		$emailAdresses[$counter] = $tok;
+			     	}else{
+			     		$this->_redirect('/admin/prof/create?id=1');
+			     	}
 			     	$tok = strtok(',');
+			     	$counter++;
 			     }
 
+			     $newQuestionnaire->save();
 
-				//$this->_redirect('/admin/prof/questionnaires');
+
+
+				$this->_redirect('/admin/prof/questionnaires');
 			}
 		}	
 
