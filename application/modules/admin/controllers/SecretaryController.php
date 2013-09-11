@@ -168,12 +168,13 @@ class Admin_SecretaryController extends Zend_Controller_Action
 						$counter = 0;
 						$value = 0;
 					}
-					echo '<h3>'.$question->text.'</h3>';
+					echo '<h3>'.$question->text.'</>';
 					foreach ($answersToQuestion as $answerToQuestion) {	
 						if($answerToQuestion->questionId == $question->id){
 							if($answerToQuestion->answertext){
-								if($answerToQuestion->questionId == 95 || $answerToQuestion->questionId == 81)
-								echo $answerToQuestion->answertext.' (';
+								if($answerToQuestion->questionId == 82 || $answerToQuestion->questionId == 96){
+									echo $answerToQuestion->answertext.' ('.')';
+								}else{echo $answerToQuestion->answertext;}
 							}else{
 								if($answerToQuestion->answernumber > 0){
 								$counter++;
