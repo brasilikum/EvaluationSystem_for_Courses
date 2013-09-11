@@ -7,6 +7,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	protected $questionTable;
 	protected $questionnaireTable;
 	protected $userTable;
+	protected $submittersTable;
 
 
 	public function init()
@@ -15,6 +16,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
 		$this->userTable = new Application_Model_DbTable_UserTable();
+		$this->submittersTable = new Application_Model_DbTable_SubmittersTable();
 		
 			
 	}
@@ -22,8 +24,6 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function indexAction()
 	{
 
-		
-			$this->_toCsv(31);
 		
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
@@ -58,6 +58,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 				echo '('. $questionnaire->category. ')';
 				echo $questionnaire->expirationDate;
 				echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
+				echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
 				echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
 
 
@@ -200,11 +201,16 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 	}
 
-	public function _toCsv($questionnaireId)
+	public function csvAction()
 	{
+		$questionnaireId = $this->getRequest()->getParam('id');
+
 		$csvColumn = array();
-		$columnCounter = 0;
+		$csvRowLabels = array();
 		$qestionIds = array();
+		$columnCounter = 0;
+		$csvRowCounter = 0;
+		
 		$questionnaire = $answers = $this->questionnaireTable
 			     					  ->find($questionnaireId)
 			     					  ->current();
@@ -220,26 +226,62 @@ class Admin_SecretaryController extends Zend_Controller_Action
 						          ->order('prio DESC'));
 
 
-		$csvRowLabels = array();
+		$submitters =  $this->submittersTable
+						    ->fetchAll();
 
-		$csvRowCounter = 0;
+		$questionIds[0] = 1;
+		$questionIds[1] = 2;
+		$questionIds[2] = 3;
 
-		
+		while($csvRowCounter<=2){
+				 $csvRowLabels[$csvRowCounter] = $this->questionTable->find($questionIds[$csvRowCounter])->current()->text;							  
+				 $csvRowCounter++;									  
+				}
 
 		foreach($categoryQuestions as $question){
 			$questionIds[$csvRowCounter] = $question->id;
 			$csvRowLabels[$csvRowCounter] = $question->text;
-			echo $questionIds[$csvRowCounter];
-			echo $csvRowLabels[$csvRowCounter];
 			$csvRowCounter++;
+		}
+		$csvColumn[$csvRowCounter] = $csvRowLabels;
+		$columnCounter++;
+
+		foreach ($submitters as $submitter) {
+			$answers = array();
+			$csvRowCounter = 0;
+			echo $submitter->answerhash;
+			$submitterAnswers = $this->answerToQuestionTable
+								  ->fetchAll($this->answerToQuestionTable->select()
+							      ->where('answerhash = ?', $submitter->answerhash));
+
+			foreach ($questionIds as $id) {
+						foreach ($submitterAnswers as $answer) {
+						      	if($answer->questionId == $id){
+						      		if($answer->answertext){
+						      			$answers[$csvRowCounter] = $answer->answertext;
+						      		}else{
+						      			$answers[$csvRowCounter] = $answer->answernumber;
+						      		}
+						      		$csvRowCounter++;
+						      	}
+						}  	
+			 }
+
+			 $csvColumn[$columnCounter] = $answers;
+			 $columnCounter++;	 				      
 		}
 
 
-		//foreach ($answers as $answer) {
-		 //		$currentHash = $answer->
-		//}
+		$fp = fopen($questionnaire->courseName.'.csv', 'w');
 
-		//$this->_redirect('/admin/secretary/questionnaires');
+		foreach ($csvColumn as $fields) {
+   			 fputcsv($fp, $fields);
+		}
+
+		fclose($fp);
+
+
+		$this->_redirect('/admin/secretary/questionnaires');
 			
 
 	}
