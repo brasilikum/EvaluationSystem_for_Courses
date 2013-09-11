@@ -50,16 +50,8 @@ class EvaluateController extends Zend_Controller_Action
 						$this->view->error = "Diese Evaluation ist beendet";
 						return false;
 					}
-					//Get all questions
-					$allQuestions = $this->questionTable->fetchAll();
-					$i = 0;
-					foreach($allQuestions as $question){
-						//Sort out questions who are not in the same category as questionnaire
-						if($question->category == $questionnaire->category){
-							$categoryQuestions[$i]  = $question;
-							$i = $i + 1;
-						}
-					}
+					$categoryQuestions = $this->questionTable->fetchAll($this->questionTable->select()->where('category = ?', $questionnaire->category));
+
 					$form = $this->generateForm($participantID, $categoryQuestions);
 		
 					if ($request->isGet()){
