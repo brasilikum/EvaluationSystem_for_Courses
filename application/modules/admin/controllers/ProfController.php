@@ -164,7 +164,10 @@ class Admin_ProfController extends Zend_Controller_Action
 			     	$newParticipant->hash = $answerhash;
 			     	$newParticipant->questionnaireId = $questionnaireId;
 
-			     	$modulname = $this->questionnaireTable->find($questionnaireId)->current()->courseName;
+			     	$modulname = $this->questionnaireTable
+			     					  ->find($questionnaireId)
+			     					  ->current()
+			     					  ->courseName;
 
 			   
 			     	$newParticipant->save();

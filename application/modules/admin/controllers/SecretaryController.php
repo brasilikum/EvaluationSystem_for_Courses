@@ -23,6 +23,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	{
 
 		
+			$this->_toCsv(31);
 		
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
@@ -168,7 +169,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 						$counter = 0;
 						$value = 0;
 					}
-					echo '<h3>'.$question->text.'</>';
+					echo '<h3>'.$question->text.'</h3>';
 					foreach ($answersToQuestion as $answerToQuestion) {	
 						if($answerToQuestion->questionId == $question->id){
 							if($answerToQuestion->answertext){
@@ -195,6 +196,50 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
+			
+
+	}
+
+	public function _toCsv($questionnaireId)
+	{
+		$csvColumn = array();
+		$columnCounter = 0;
+		$qestionIds = array();
+		$questionnaire = $answers = $this->questionnaireTable
+			     					  ->find($questionnaireId)
+			     					  ->current();
+
+		$answers = $this->questionnaireTable
+			     					  ->find($questionnaireId)
+			     					  ->current()
+			     					  ->findDependentRowset('Application_Model_DbTable_AnswerToQuestionTable');
+		
+		$categoryQuestions = $this->questionTable
+								  ->fetchAll($this->questionTable->select()
+							      ->where('category = ?', $questionnaire->category)
+						          ->order('prio DESC'));
+
+
+		$csvRowLabels = array();
+
+		$csvRowCounter = 0;
+
+		
+
+		foreach($categoryQuestions as $question){
+			$questionIds[$csvRowCounter] = $question->id;
+			$csvRowLabels[$csvRowCounter] = $question->text;
+			echo $questionIds[$csvRowCounter];
+			echo $csvRowLabels[$csvRowCounter];
+			$csvRowCounter++;
+		}
+
+
+		//foreach ($answers as $answer) {
+		 //		$currentHash = $answer->
+		//}
+
+		//$this->_redirect('/admin/secretary/questionnaires');
 			
 
 	}
