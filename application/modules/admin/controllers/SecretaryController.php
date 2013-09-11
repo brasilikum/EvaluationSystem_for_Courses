@@ -164,15 +164,16 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 			foreach ($questions as $question) {
 				if($question->category == $row->category){
-					if($question->type == 'radio'){
+					if($question->type == 'radio' || $question->type == 'musel'){
 						$counter = 0;
 						$value = 0;
 					}
-					echo '<h1>'.$question->text.'</h1>';
+					echo '<h3>'.$question->text.'</h3>';
 					foreach ($answersToQuestion as $answerToQuestion) {	
 						if($answerToQuestion->questionId == $question->id){
 							if($answerToQuestion->answertext){
-								echo $answerToQuestion->answertext;
+								if($answerToQuestion->questionId == 95 || $answerToQuestion->questionId == 81)
+								echo $answerToQuestion->answertext.' (';
 							}else{
 								if($answerToQuestion->answernumber > 0){
 								$counter++;
