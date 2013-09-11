@@ -46,7 +46,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $mailTransport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
             Zend_Mail::setDefaultTransport($mailTransport);
         } catch (Zend_Exception $e){
-            //Do something with exception
         }
     }  
 }
