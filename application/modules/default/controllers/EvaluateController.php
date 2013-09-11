@@ -65,10 +65,10 @@ class EvaluateController extends Zend_Controller_Action
 							$answer->questionId = $question->id;
 							$answer->questionnaireId = $questionnaire->id;
 							$answer->answerhash = $answerhash;
-							if($question->type == "radio"){
-								$answer->answernumber = $form->getValue($question->id);
-							} else {
+							if($question->type == "text"){
 								$answer->answertext = $form->getValue($question->id);
+							} else {
+								$answer->answernumber = $form->getValue($question->id);
 							}
 							$answer->save();
 						}
