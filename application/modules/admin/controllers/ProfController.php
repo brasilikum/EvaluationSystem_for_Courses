@@ -106,6 +106,10 @@ class Admin_ProfController extends Zend_Controller_Action
 			     	$counter++;
 			     }
 
+			     foreach($emails as $email){
+			     	$answerhash = sha1(uniqid(mt_rand(), true));
+			     }
+
 			     $newQuestionnaire->save();
 
 
