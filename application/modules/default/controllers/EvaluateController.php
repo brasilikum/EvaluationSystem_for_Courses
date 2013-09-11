@@ -143,7 +143,8 @@ class EvaluateController extends Zend_Controller_Action
 			if($question->type == "radio"){
 				$element = new Zend_Form_Element_Radio(
 				$question->id, array('label' => $question->text));
-				$element->setMultiOptions(array("Trifft zu", "" , "Trifft teilweise zu", "" , "Trifft nicht zu"));
+				$element->setMultiOptions(array('0' => "keine Angabe", '1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu"));
+				$element->setValue(array("0"));
 				$form->addElement($element, $question->id);
 			} else if($question->type == "text"){
 				$element = new Zend_Form_Element_Text(
