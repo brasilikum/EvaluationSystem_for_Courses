@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Sep 2013 um 15:27
+-- Erstellungszeit: 12. Sep 2013 um 18:10
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -152,9 +152,9 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 (78, 'Die Ausstattung der Hörsäle ist sehr gut', 'VL', 0, 0, 0, 'radio', 0),
 (79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 0, 50, 1, 'musel', 0),
 (81, 'Ich gebe der Vorlesung die Gesamtnote(Noten von 1 bis 5)', 'VL', 1, 5, 0.5, 'musel', 0),
-(82, 'Ich gebe diese Note weil', 'VL', 0, 0, 0, 'text', 0),
-(83, 'Mir hat besonders gefallen', 'VL', 0, 0, 0, 'text', 0),
-(84, 'Mir hat nicht gefallen', 'VL', 0, 0, 0, 'text', 0),
+(82, 'Ich gebe diese Note weil', 'VL', 0, 0, 0, 'tarea', 0),
+(83, 'Mir hat besonders gefallen', 'VL', 0, 0, 0, 'tarea', 0),
+(84, 'Mir hat nicht gefallen', 'VL', 0, 0, 0, 'tarea', 0),
 (85, 'Die Laborausstattung ist sehr gut', 'PR', 0, 0, 0, 'radio', 0),
 (86, 'Die Unterlagen zur Vorbereitung sind hilfreich und verständlich', 'PR', 0, 0, 0, 'radio', 0),
 (87, 'Die Anforderungen sind transparent', 'PR', 0, 0, 0, 'radio', 0),
@@ -166,9 +166,9 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 (93, 'Das Feedback ist hilfreich', 'PR', 0, 0, 0, 'radio', 0),
 (94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 0, 50, 1, 'musel', 0),
 (95, 'Ich gebe dem Praktikum die Gesamtnote', 'PR', 1, 5, 0.5, 'musel', 0),
-(96, 'Ich gebe diese Note weil', 'PR', 0, 0, 0, 'text', 0),
-(97, 'Mir hat besonders gefallen', 'PR', 0, 0, 0, 'text', 0),
-(98, 'Mir hat nicht gefallen', 'PR', 0, 0, 0, 'text', 0);
+(96, 'Ich gebe diese Note weil', 'PR', 0, 0, 0, 'tarea', 0),
+(97, 'Mir hat besonders gefallen', 'PR', 0, 0, 0, 'tarea', 0),
+(98, 'Mir hat nicht gefallen', 'PR', 0, 0, 0, 'tarea', 0);
 
 -- --------------------------------------------------------
 
