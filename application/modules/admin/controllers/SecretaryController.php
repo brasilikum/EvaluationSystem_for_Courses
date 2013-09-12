@@ -10,6 +10,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	protected $submittersTable;
 
 
+	//initiating database
 	public function init()
 	{
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
@@ -33,7 +34,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 	}
 
-
+	//displaying all questionnaires
 	public function questionnairesAction()
 	{
 
@@ -50,92 +51,29 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			//all questionnaires are displayed
 			foreach($questionnaires as $questionnaire){
 				if($questionnaire->expirationDate < $today){
-				$denpendantProfId =  $questionnaire->profId;
-				$denpendantProfSet = $this->userTable->find($denpendantProfId);
-				$denpendantProf = $denpendantProfSet->current();
-				echo $denpendantProf->username;
-				echo $questionnaire->courseName;
-				echo '('. $questionnaire->category. ')';
-				echo $questionnaire->expirationDate;
-				echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
-				echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
-				echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
+					$denpendantProfId =  $questionnaire->profId;
+					$denpendantProfSet = $this->userTable->find($denpendantProfId);
+					$denpendantProf = $denpendantProfSet->current();
+					echo $denpendantProf->username;
+					echo $questionnaire->courseName;
+					echo '('. $questionnaire->category. ')';
+					echo $questionnaire->expirationDate;
+					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
+					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
+					echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
 
 
-			}
+				}
 
 			
 			}
 
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 
-		
-			
-			
-			
 
 	}
 
-	public function createAction()
-	{
-		$form = $this->_getCreationForm();
-		$request = $this->getRequest();
-
-		if ($request->isPost())
-		{
-			if ($form->isValid($_POST))
-			{
-				$newQuestionnaire = $this->questionnaireTable->createRow();
-
-				$newQuestionnaire->courseName = $form->getValue('courseName');
-				$newQuestionnaire->expirationDate = $form->getValue('expirationDate');
-				$newQuestionnaire->semester = $form->getValue('semester');
-				$newQuestionnaire->category = $form->getValue('category');
-				$newQuestionnaire->profId = Application_Plugin_auth_AccessControl::getUserId();
-				
-
-				$newQuestionnaire->save();
-
-
-
-				$this->_redirect('/admin/prof/questionnaires');
-			}
-		}	
-
-			$this->view->form = $this->_getCreationForm();
-			
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
-			
-			$this->view->form = $form;
-			
-
-	}
-
-	public function _getCreationForm(){
-
-	    $form = new Zend_Form();
-		$form->setMethod('post');
-
-		$expirationDate = new Zend_Form_Element_Text('expirationDate',array('label' => 'ReleaseDate', 'required' => true));
-		$expirationDate->addFilter('StripTags');
-		$expirationDate->addValidator(new Zend_Validate_Date);
-
-		$courseName = new Zend_Form_Element_Text('courseName', array('label' => 'Modulname', 'required' => true));
-
-		$semester = new Zend_Form_Element_Text('semester', array('label' => 'Semester', 'required' => true));
-
-
-		$category = new Zend_Form_Element_Text('category', array('label' => 'VL oder PR', 'required' => true));
-		
-
-		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Abschicken'));
-		$form->addElements(array($courseName, $semester, $category,$expirationDate, $submit));
-
-		return $form;
-
-	}
-
+	//deleting a questionnaire
 	public function deleteAction()
 	{
 		$id = $this->getRequest()->getParam('id');
@@ -153,7 +91,8 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 	}
 
-		public function showAction()
+	//a function that displays questionnaires which are finished
+	public function showAction()
 	{
 
 			$id = $this->getRequest()->getParam('id');
@@ -201,44 +140,50 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 	}
 
+	//writes the results of a questionnaire into a csv-file
 	public function csvAction()
-	{
+	{	
+		//reading id of the questionnaire, which is supposed to be written into the file
 		$questionnaireId = $this->getRequest()->getParam('id');
 
+		//innitiating the arrays for the particular csv lines
 		$csvColumn = array();
 		$csvRowLabels = array();
 		$qestionIds = array();
 		$columnCounter = 0;
 		$csvRowCounter = 0;
-		
-		$questionnaire = $answers = $this->questionnaireTable
+
+
+		//returning the actual questionnaire
+		$questionnaire = $this->questionnaireTable
 			     					  ->find($questionnaireId)
 			     					  ->current();
 
-		$answers = $this->questionnaireTable
-			     					  ->find($questionnaireId)
-			     					  ->current()
-			     					  ->findDependentRowset('Application_Model_DbTable_AnswerToQuestionTable');
-		
+		//returning the questions of the given questionnaire
 		$categoryQuestions = $this->questionTable
 								  ->fetchAll($this->questionTable->select()
 							      ->where('category = ?', $questionnaire->category)
 						          ->order('prio DESC'));
 
 
+		//returning the answerhashes in order to iterate
 		$submitters =  $this->submittersTable
 						    ->fetchAll($this->submittersTable->select()
-							      ->where('questionnaireId = ?', $questionnaireId));
+	     				    ->where('questionnaireId = ?', $questionnaireId));
 
+		//saving non-categorical questions
 		$questionIds[0] = 1;
 		$questionIds[1] = 2;
 		$questionIds[2] = 3;
 
 		while($csvRowCounter<=2){
-				 $csvRowLabels[$csvRowCounter] = $this->questionTable->find($questionIds[$csvRowCounter])->current()->text;							  
+				 $csvRowLabels[$csvRowCounter] = $this->questionTable
+				 									  ->find($questionIds[$csvRowCounter])
+				 									  ->current()->text;							  
 				 $csvRowCounter++;									  
 				}
 
+		//writing first csv-line
 		foreach($categoryQuestions as $question){
 			$questionIds[$csvRowCounter] = $question->id;
 			$csvRowLabels[$csvRowCounter] = $question->text;
@@ -247,14 +192,17 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		$csvColumn[$csvRowCounter] = $csvRowLabels;
 		$columnCounter++;
 
+
+		//writing csv-lines from answers
 		foreach ($submitters as $submitter) {
 			$answers = array();
 			$csvRowCounter = 0;
 			echo $submitter->answerhash;
+			//returning the answers from current submitter
 			$submitterAnswers = $this->answerToQuestionTable
 								  ->fetchAll($this->answerToQuestionTable->select()
 							      ->where('answerhash = ?', $submitter->answerhash));
-
+			//iterating through questions in order to give the right answer to the right question
 			foreach ($questionIds as $id) {
 						foreach ($submitterAnswers as $answer) {
 						      	if($answer->questionId == $id){
@@ -275,6 +223,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 
 		$fp = fopen($questionnaire->courseName.'.csv', 'w');
 
+		//writing the csv-file
 		foreach ($csvColumn as $fields) {
    			 fputcsv($fp, $fields);
 		}
@@ -286,11 +235,6 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			
 
 	}
-
-	
-
-	
-
 
 }
 

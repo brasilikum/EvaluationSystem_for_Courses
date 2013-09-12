@@ -10,6 +10,7 @@ class Admin_ProfController extends Zend_Controller_Action
 	protected $participantTable;
 
 
+	//initilizing database
 	public function init()
 	{
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
@@ -34,7 +35,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 	}
 
-
+	//showing all questionnaires, that are currently evaluated
 	public function questionnairesAction()
 	{
 
@@ -51,10 +52,10 @@ class Admin_ProfController extends Zend_Controller_Action
 			//questionnaires from logged-in User are displayed
 			foreach($questionnaires as $questionnaireFromProf){
 				if($questionnaireFromProf->expirationDate >= $today){
-				echo $questionnaireFromProf->courseName;
-				echo '('. $questionnaireFromProf->category.')';
-				echo $questionnaireFromProf->expirationDate;
-			}
+					echo $questionnaireFromProf->courseName;
+					echo '('. $questionnaireFromProf->category.')';
+					echo $questionnaireFromProf->expirationDate;
+				}
 			}
 
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
@@ -65,6 +66,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 	}
 
+	//creating a new questionnaire
 	public function createAction()
 	{
 		$form = $this->_getCreationForm();
@@ -129,6 +131,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 	}
 
+	//returns a form for the new questionnaire
 	public function _getCreationForm(){
 
 	    $form = new Zend_Form();
@@ -154,6 +157,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 	}
 
+	//function that iterates through the mails, and uses the mail adapter to send specific hashes to the students
 	public function _sendMails($questionnaireId, $mailAdresses){
 
 		foreach($mailAdresses as $address){

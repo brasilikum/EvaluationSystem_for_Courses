@@ -2,7 +2,6 @@
 class UserController extends Zend_Controller_Action
 {
 
-	protected $bookTable;
 	public function init()
 	{
 		
@@ -22,6 +21,7 @@ class UserController extends Zend_Controller_Action
 		
 	}
 
+	//clears the current session id
 	public function logoutAction()
 	{
 		Zend_Auth::getInstance()->clearIdentity();
