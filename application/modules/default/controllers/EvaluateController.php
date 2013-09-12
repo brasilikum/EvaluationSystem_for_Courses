@@ -7,12 +7,14 @@ class EvaluateController extends Zend_Controller_Action
 	protected $questionTable;
 	protected $questionnaireTable;
 	protected $participantTable;
+	protected $submittersTable;
 
 	public function init(){
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
-		$this->participantTable = new Application_Model_DbTable_ParticipantTable();			
+		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
+		$this->submittersTable = new Application_Model_DbTable_SubmittersTable();	
 	}
 
 	public function indexAction(){
@@ -29,14 +31,14 @@ class EvaluateController extends Zend_Controller_Action
 		if ($request->isGet()){				
 			$participantID = $request->getParam('id');
 		//Save
-		}else if ($request->isPost()){		
-			echo "post ";
+		}else if ($request->isPost()){
 			$participantID = $request->getParam('participantID');
 		}
 		//Is valid sha1
 		if ((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID)){
 			$participants = $this->participantTable->find($participantID);
 			if (count($participants) > 0){
+
 				$participant = $participants->current();
 				//Get questionnaire to participant
 				$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
@@ -52,13 +54,12 @@ class EvaluateController extends Zend_Controller_Action
 						->where('category = ?', $questionnaire->category)
 						->order('prio DESC'));
 
-					$form = $this->generateForm($participantID, $categoryQuestions);
+					$form = $this->generateForm($participant->hash, $categoryQuestions);
 		
 					if ($request->isGet()){
 						$this->generateDescr($questionnaire);
 						$this->view->form = $form;
 					} else if ($request->isPost()){
-						print_r($_POST);
 						$answerhash = sha1(uniqid(mt_rand(), true));
 						$form->populate($this->_request->getPost());
 						foreach($categoryQuestions as $question){
@@ -68,35 +69,20 @@ class EvaluateController extends Zend_Controller_Action
 							$answer->answerhash = $answerhash;
 							if($question->type == "text"){
 								$answer->answertext = $form->getValue($question->id);
-							} else {
+							} else if ($question->type == "radio"){
 								$answer->answernumber = $form->getValue($question->id);
+							} else if ($question->type == "musel"){
+								$multiArray = $form->getElement($question->id)->getMultiOptions();
+								$number = $form->getValue($question->id);
+								$answer->answernumber = $multiArray[$number];
 							}
 							$answer->save();
 						}
-						$courseAnswer = $this->answerToQuestionTable->createRow();
-						$courseAnswer->questionId = 1;
-						$courseAnswer->questionnaireId = $questionnaire->id;
-						$courseAnswer->answerhash = $answerhash;
-						$courseAnswer->answertext = $form->getValue("course");
-						$courseAnswer->save();
-
-						$semesterAnswer = $this->answerToQuestionTable->createRow();
-						$semesterAnswer->questionId = 2;
-						$semesterAnswer->questionnaireId = $questionnaire->id;
-						$semesterAnswer->answerhash = $answerhash;
-						$semesterAnswer->answernumber = $form->getValue("semester");
-						$array = $form->getValue("semester");
-						echo '0: '.$array[0];
-						$semesterAnswer->save();
-
-						$semesterAnswer = $this->answerToQuestionTable->createRow();
-						$semesterAnswer->questionId = 3;
-						$semesterAnswer->questionnaireId = $questionnaire->id;
-						$semesterAnswer->answerhash = $answerhash;
-						$semesterAnswer->answernumber = $form->getValue("visited");
-						$semesterAnswer->save();
-
-						$this->deleteParticipant($participantID);
+						$submitter = $this->submittersTable->createRow();
+						$submitter->answerhash = $answerhash;
+						$submitter->questionnaireId = $questionnaire->id;
+						$submitter->save();
+						$this->deleteParticipant($participant->hash);
 						$this->view->formsaved = true;	
 					}
 				} else {	//(count($questionnaires) > 0)
@@ -107,8 +93,7 @@ class EvaluateController extends Zend_Controller_Action
 			}
 		} else {	//((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID))
 			$this->view->error = "No hash found or hash invalid";
-		}		
-		
+		}				
 	}
 
 	private function generateDescr($questionnaire){
@@ -120,27 +105,6 @@ class EvaluateController extends Zend_Controller_Action
 	private function generateForm($participantID, $categoryQuestions){
 		$form = new Zend_Form;
 		$form->setMethod('post');
-
-		$parIDElement = new Zend_Form_Element_Hidden(
-		'participantID', array('value' => $participantID));
-
-		$courseElement = new Zend_Form_Element_Text(
-		'course', array('label' => 'Studiengang:'));
-		$courseElement->addFilter('StripTags');
-
-		$semesterElement = new Zend_Form_Element_Select(
-		'semester', array('label' => 'Semester:'));
-		$semesterElement->setMultiOptions(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
-
-		$visitedElement = new Zend_Form_Element_Select(
-		'visited', array('label' => '% der Veranstaltung besucht:'));
-		$visitedElement->setMultiOptions(array(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100));
-
-		$fixedElements = array(	$parIDElement,
-								$courseElement, 
-								$semesterElement,
-								$visitedElement);
-		$form->addElements($fixedElements);
 
 		foreach($categoryQuestions as $question){
 			if($question->type == "radio"){
@@ -161,12 +125,12 @@ class EvaluateController extends Zend_Controller_Action
 				$form->addElement($element, $question->id);
 			}
 		}
-
+		$parIDElement = new Zend_Form_Element_Hidden(
+		'participantID', array('value' => $participantID));
 		$submitElement = new Zend_Form_Element_Submit(
 		'submit', array('label'=>'Speichern'));
-
-		$form->addElement($submitElement, 'submit');
-
+		$elements = array($parIDElement, $submitElement);
+		$form->addElements($elements);
 		return $form;
 	}
 
