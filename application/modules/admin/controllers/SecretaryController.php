@@ -25,10 +25,15 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function indexAction()
 	{
 
-		
+			$fullName = $this->userTable
+							 ->fetchAll($this->userTable
+							 ->select()
+							 ->where('id = ?',Application_Plugin_auth_AccessControl::getUserId()))
+							 ->current()
+							 ->fullName;
+			echo '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
 			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
-			
 			
 			
 
@@ -38,7 +43,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function questionnairesAction()
 	{
 
-			echo 'Fertige Umfragen';
+			echo 'Abgeschlossene Evaluationen';
 		
 			//getting UserId and its denpendant rows
 	
@@ -60,7 +65,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 					echo $questionnaire->expirationDate;
 					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
 					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
-					echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen!</a><br/>';
+					echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen</a><br/>';
 
 
 				}
@@ -165,6 +170,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		$csvColumn = array();
 		$csvRowLabels = array();
 		$qestionIds = array();
+		$average = array();
 		$columnCounter = 0;
 		$csvRowCounter = 0;
 
@@ -185,19 +191,6 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		$submitters =  $this->submittersTable
 						    ->fetchAll($this->submittersTable->select()
 	     				    ->where('questionnaireId = ?', $questionnaireId));
-
-		/*//saving non-categorical questions
-		$questionIds[0] = 1;
-		$questionIds[1] = 2;
-		$questionIds[2] = 3;
-
-		while($csvRowCounter<=2){
-				 $csvRowLabels[$csvRowCounter] = $this->questionTable
-				 									  ->find($questionIds[$csvRowCounter])
-				 									  ->current()->text;							  
-				 $csvRowCounter++;									  
-				}*/
-
 		//writing first csv-line
 		foreach($categoryQuestions as $question){
 			$questionIds[$csvRowCounter] = $question->id;
@@ -208,11 +201,11 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		$columnCounter++;
 
 
+
 		//writing csv-lines from answers
 		foreach ($submitters as $submitter) {
 			$answers = array();
 			$csvRowCounter = 0;
-			echo $submitter->answerhash;
 			//returning the answers from current submitter
 			$submitterAnswers = $this->answerToQuestionTable
 								  ->fetchAll($this->answerToQuestionTable->select()
@@ -228,12 +221,41 @@ class Admin_SecretaryController extends Zend_Controller_Action
 						      		}
 						      		$csvRowCounter++;
 						      	}
-						}  	
+						}	
 			 }
 
 			 $csvColumn[$columnCounter] = $answers;
 			 $columnCounter++;	 				      
 		}
+
+		foreach($questionIds as $id){
+			$answerAverage = 0;
+			$averageCounter = 0;
+			if($id == 1 || $id == 4){
+				$average[0] = 'Durchschnitt';
+				$averageRowCounter = 1;
+			}else{
+				$answers = $this->answerToQuestionTable
+						    ->fetchAll($this->answerToQuestionTable
+						    ->select()
+						    ->where('questionId = ?', $id));
+					foreach($answers as $answer){
+						if($answer->answernumber){
+							$answerAverage = $answerAverage + $answer->answernumber;
+							$averageCounter++;
+						}
+						
+					}
+					if($averageCounter > 0){
+						$average[$averageRowCounter] = $answerAverage / $averageCounter;
+						$averageRowCounter++;	
+					}	    
+			}
+			
+
+		}
+
+		$csvColumn[$columnCounter] = $average;
 
 
 		$fp = fopen($questionnaire->courseName.'.csv', 'w');

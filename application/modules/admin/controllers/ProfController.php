@@ -23,7 +23,14 @@ class Admin_ProfController extends Zend_Controller_Action
 	}
 
 	public function indexAction()
-	{
+	{	
+		$fullName = $this->userTable
+							 ->fetchAll($this->userTable
+							 ->select()
+							 ->where('id = ?',Application_Plugin_auth_AccessControl::getUserId()))
+							 ->current()
+							 ->fullName;
+			echo '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
 
 		
 		
