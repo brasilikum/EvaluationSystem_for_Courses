@@ -7,13 +7,15 @@ class EvaluateController extends Zend_Controller_Action
 	protected $questionnaireTable;
 	protected $participantTable;
 	protected $submittersTable;
+	protected $userTable;
 
 	public function init(){
 		$this->answerToQuestionTable = new Application_Model_DbTable_AnswerToQuestionTable();
 		$this->questionnaireTable = new Application_Model_DbTable_QuestionnaireTable();
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
 		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
-		$this->submittersTable = new Application_Model_DbTable_SubmittersTable();	
+		$this->submittersTable = new Application_Model_DbTable_SubmittersTable();
+		$this->userTable = new Application_Model_DbTable_UserTable();
 	}
 
 	public function indexAction(){
@@ -92,9 +94,15 @@ class EvaluateController extends Zend_Controller_Action
 	}
 
 	private function generateDescr($questionnaire){
+		$fullName = $this->userTable
+							 ->fetchAll($this->userTable
+							 ->select()
+							 ->where('id = ?',$questionnaire->profId))
+							 ->current()
+							 ->fullName;
 		$this->view->questName = $questionnaire->courseName;
 		$this->view->questSemester = $questionnaire->semester;
-		$this->view->profName = 'DummyName';
+		$this->view->profName = $fullName;
 	}
 
 	private function generateForm($participantID, $categoryQuestions){
@@ -119,7 +127,6 @@ class EvaluateController extends Zend_Controller_Action
 		}
 		$parIDElement = new Zend_Form_Element_Hidden(
 		'participantID', array('value' => $participantID));
-		$parIDElement->class = "hidden";
 		$submitElement = new Zend_Form_Element_Submit(
 		'submit', array('label'=>'Speichern'));
 		$elements = array($parIDElement, $submitElement);
