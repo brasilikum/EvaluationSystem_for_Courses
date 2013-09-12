@@ -58,6 +58,7 @@ class EvaluateController extends Zend_Controller_Action
 						$this->generateDescr($questionnaire);
 						$this->view->form = $form;
 					} else if ($request->isPost()){
+						print_r($_POST);
 						$answerhash = sha1(uniqid(mt_rand(), true));
 						$form->populate($this->_request->getPost());
 						foreach($categoryQuestions as $question){
@@ -156,7 +157,7 @@ class EvaluateController extends Zend_Controller_Action
 			}  else if($question->type == "musel"){
 				$element = new Zend_Form_Element_Select(
 				$question->id, array('label' => $question->text));
-				$element->setMultiOptions(array(1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0));
+				$element->setMultiOptions(range($question->rangeMin, $question->rangeMax, $question->rangeStep));
 				$form->addElement($element, $question->id);
 			}
 		}
