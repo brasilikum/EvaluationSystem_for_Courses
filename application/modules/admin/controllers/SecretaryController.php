@@ -31,11 +31,12 @@ class Admin_SecretaryController extends Zend_Controller_Action
 							 ->where('id = ?',Application_Plugin_auth_AccessControl::getUserId()))
 							 ->current()
 							 ->fullName;
-			echo '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			$html = '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
+			$html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
+			$html .= '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
+			 $this->view->html = $html;
 
 	}
 
@@ -43,7 +44,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function questionnairesAction()
 	{
 
-			echo 'Abgeschlossene Evaluationen';
+			$html =  '<h3>Abgeschlossene Evaluationen</h3>';
 		
 			//getting UserId and its denpendant rows
 	
@@ -59,13 +60,13 @@ class Admin_SecretaryController extends Zend_Controller_Action
 					$denpendantProfId =  $questionnaire->profId;
 					$denpendantProfSet = $this->userTable->find($denpendantProfId);
 					$denpendantProf = $denpendantProfSet->current();
-					echo $denpendantProf->username;
-					echo $questionnaire->courseName;
-					echo '('. $questionnaire->category. ')';
-					echo $questionnaire->expirationDate;
-					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
-					echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
-					echo'<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen</a><br/>';
+					$html .= $denpendantProf->username.' ';
+					$html .= $questionnaire->courseName;
+					$html .='('. $questionnaire->category. ')';
+					$html .= $questionnaire->expirationDate;
+					$html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/show?id='.$questionnaire->id.'\'>Antworten anzeigen</a></div><br/>';
+					$html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/csv?id='.$questionnaire->id.'\'>Ergebnisse als CSV herunterladen</a></div><br/>';
+					$html .= '<a onClick="return confirm(\'Wirklich l&ouml;schen?\');" href="'.$this->view->baseUrl().'/admin/secretary/delete?id='.$questionnaire->id.'">l&ouml;schen</a><br/>';
 
 
 				}
@@ -73,7 +74,10 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			
 			}
 
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+				$menue = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+
+				$this->view->menue = $menue;
+				$this->view->html = $html;
 
 
 	}
@@ -146,7 +150,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 					 }
 					 if($counter > 0){
 					 	$value = $value/$counter;
-					 	echo 'Durchschnitt: '.$value.' Counter: '.$counter;
+					 	echo 'Durchschnitt: '.$value;
 					 }
 			}
 		}
