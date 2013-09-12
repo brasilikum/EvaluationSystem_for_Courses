@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Sep 2013 um 11:31
+-- Erstellungszeit: 12. Sep 2013 um 14:42
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -141,6 +141,7 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 
 CREATE TABLE `questionnaire` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
+  `fullName` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `profId` int(12) NOT NULL,
   `expirationDate` date NOT NULL,
   `semester` varchar(20) NOT NULL,
@@ -148,21 +149,22 @@ CREATE TABLE `questionnaire` (
   `category` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'VL',
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
-  KEY `profId` (`profId`)
+  KEY `profId` (`profId`),
+  KEY `fullName` (`fullName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Daten für Tabelle `questionnaire`
 --
 
-INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `courseName`, `category`) VALUES
-(21, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
-(22, 3, '2013-09-13', 'SoSe 2013', 'Huibuh', 'PR'),
-(23, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'VL'),
-(24, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
-(25, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
-(26, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
-(31, 3, '2013-09-13', 'SoSe 2013', 'Test mit GEorg ', 'PR');
+INSERT INTO `questionnaire` (`id`, `fullName`, `profId`, `expirationDate`, `semester`, `courseName`, `category`) VALUES
+(21, NULL, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
+(22, NULL, 3, '2013-09-13', 'SoSe 2013', 'Huibuh', 'PR'),
+(23, NULL, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'VL'),
+(24, NULL, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
+(25, NULL, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
+(26, NULL, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
+(31, NULL, 3, '2013-09-13', 'SoSe 2013', 'Test mit GEorg ', 'PR');
 
 -- --------------------------------------------------------
 
@@ -188,17 +190,19 @@ CREATE TABLE `user` (
   `username` varchar(12) COLLATE utf8_bin NOT NULL,
   `password` varchar(256) COLLATE utf8_bin NOT NULL,
   `role` varchar(12) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
+  `fullName` varchar(128) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fullName` (`fullName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `role`) VALUES
-(3, 'admin', 'admin', 'admin'),
-(4, 'user', 'user', 'user'),
-(5, 'plutti', 'apple', 'admin');
+INSERT INTO `user` (`id`, `username`, `password`, `role`, `fullName`) VALUES
+(3, 'admin', 'admin', 'admin', 'Herr Prof. Von Und Zu'),
+(4, 'user', 'user', 'user', 'Studiensekretariat'),
+(5, 'plutti', 'apple', 'admin', 'Björn Plutka');
 
 --
 -- Constraints der exportierten Tabellen
@@ -221,6 +225,7 @@ ALTER TABLE `participant`
 -- Constraints der Tabelle `questionnaire`
 --
 ALTER TABLE `questionnaire`
+  ADD CONSTRAINT `questionnaire_ibfk_2` FOREIGN KEY (`fullName`) REFERENCES `user` (`fullName`),
   ADD CONSTRAINT `questionnaire_ibfk_1` FOREIGN KEY (`profId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

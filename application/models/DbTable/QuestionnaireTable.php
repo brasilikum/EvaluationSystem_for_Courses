@@ -10,7 +10,15 @@ class Application_Model_DbTable_QuestionnaireTable extends Zend_Db_Table_Abstrac
 			'refTableClass'	=>	'Application_Model_DbTable_UserTable',
 			'refColums'		=>	'id',
 			'onDelete'		=>	self::RESTRICT
+			),
+
+		'Professor' => array(
+			'columns'		=>	'profName',
+			'refTableClass'	=>	'Application_Model_DbTable_UserTable',
+			'refColums'		=>	'fullName',
+			'onDelete'		=>	self::RESTRICT
 			)
+
 		);
 
 	
