@@ -94,7 +94,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	//a function that displays questionnaires which are finished
 	public function showAction()
 	{
-
+			$counter;
 			$id = $this->getRequest()->getParam('id');
 
 			$where = $this->questionnaireTable->find($id);
@@ -106,27 +106,42 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			foreach ($questions as $question) {
 				if($question->category == $row->category){
 					if($question->type == 'radio' || $question->type == 'musel'){
-						$counter = 0;
+						
 						$value = 0;
 					}
+					$counter = 0;
 					echo '<h3>'.$question->text.'</h3>';
 					foreach ($answersToQuestion as $answerToQuestion) {	
 						if($answerToQuestion->questionId == $question->id){
 							if($answerToQuestion->answertext){
 								if($answerToQuestion->questionId == 82 || $answerToQuestion->questionId == 96){
-									echo $answerToQuestion->answertext.' ('.')';
+									if($answerToQuestion->questionId == 82){
+										$note = $this->questionTable
+								  					 ->fetchAll($this->answerToQuestionTable->select()
+							     					 ->where('answerhash = ?', $answerToQuestion->answerhash)
+							     					 ->where('questionId = ?', '81'))
+							     					 ->current()->anwernumber;
+										echo $answerToQuestion->answertext.' ('.$note.')';
+									}else{
+										$note = $this->questionTable
+								  					 ->fetchAll($this->answerToQuestionTable->select()
+							     					 ->where('answerhash = ?', $answerToQuestion->answerhash)
+							     					 ->where('questionId = ?', '95'))
+							     					 ->current()->answernumber;
+										echo $answerToQuestion->answertext.' ('.$note.')';
+									}
 								}else{echo $answerToQuestion->answertext;}
 							}else{
 								if($answerToQuestion->answernumber > 0){
-								$counter++;
-								$value = $value + $answerToQuestion->answernumber;
+									$counter++;
+									$value = $value + $answerToQuestion->answernumber;
 								}
 							}
 						}	
 					 }
 					 if($counter > 0){
 					 	$value = $value/$counter;
-					 	echo 'Durchschnitt: '.$value.'';
+					 	echo 'Durchschnitt: '.$value.' Counter: '.$counter;
 					 }
 			}
 		}

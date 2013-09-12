@@ -13,7 +13,7 @@ class Application_Model_DbTable_QuestionnaireTable extends Zend_Db_Table_Abstrac
 			),
 
 		'Professor' => array(
-			'columns'		=>	'profName',
+			'columns'		=>	'fullName',
 			'refTableClass'	=>	'Application_Model_DbTable_UserTable',
 			'refColums'		=>	'fullName',
 			'onDelete'		=>	self::RESTRICT
