@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 11. Sep 2013 um 16:26
+-- Erstellungszeit: 12. Sep 2013 um 11:31
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -30,70 +30,9 @@ CREATE TABLE `answertoquestion` (
   PRIMARY KEY (`id`),
   KEY `answertext` (`answertext`(255)),
   KEY `questionId` (`questionId`),
-  KEY `questionnaireId` (`questionnaireId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=273 ;
-
---
--- Daten für Tabelle `answertoquestion`
---
-
-INSERT INTO `answertoquestion` (`id`, `answertext`, `questionId`, `questionnaireId`, `answernumber`, `answerhash`) VALUES
-(217, NULL, 59, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(218, NULL, 60, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(219, NULL, 61, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(220, NULL, 62, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(221, NULL, 63, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(222, NULL, 64, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(223, NULL, 65, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(224, NULL, 66, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(225, NULL, 67, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(226, NULL, 68, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(227, NULL, 69, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(228, NULL, 70, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(229, NULL, 71, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(230, NULL, 72, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(231, NULL, 73, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(232, NULL, 74, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(233, NULL, 75, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(234, NULL, 76, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(235, NULL, 77, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(236, NULL, 78, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(237, '12', 79, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(238, NULL, 81, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(239, 'huuuuu', 82, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(240, NULL, 83, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(241, NULL, 84, 27, 0, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(242, NULL, 88, 27, 1, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(243, 'Medieninformatik', 1, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(244, NULL, 2, 27, NULL, 'fe090197a61d5ed119dd2140160a1dcaf7e6ea10'),
-(245, NULL, 59, 27, 2, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(246, NULL, 60, 27, 1, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(247, NULL, 61, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(248, NULL, 62, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(249, NULL, 63, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(250, NULL, 64, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(251, NULL, 65, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(252, NULL, 66, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(253, NULL, 67, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(254, NULL, 68, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(255, NULL, 69, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(256, NULL, 70, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(257, NULL, 71, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(258, NULL, 72, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(259, NULL, 73, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(260, NULL, 74, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(261, NULL, 75, 27, 1, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(262, NULL, 76, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(263, NULL, 77, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(264, NULL, 78, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(265, '12', 79, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(266, NULL, 81, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(267, 'huuuuu', 82, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(268, 'huuuuu', 83, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(269, 'huuuuu', 84, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(270, NULL, 88, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(271, 'Medieninformatik', 1, 27, NULL, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a'),
-(272, NULL, 2, 27, 0, '080f311ca33e82d5f4def3f4ff8af26f74d9db8a');
+  KEY `questionnaireId` (`questionnaireId`),
+  KEY `answerhash` (`answerhash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -122,11 +61,8 @@ INSERT INTO `participant` (`hash`, `questionnaireId`) VALUES
 ('3fc9ff86751934466f053ffcb99a46e469bc39a3', 24),
 ('047a9d26b99a75a0e16a34022fd84f5f65fda0ee', 25),
 ('e7a4bd0a2d8fac9ecd624d9dd4b48d4c28b94fc8', 26),
-('b77a8e7b8b9f8cf10a8350be00a332a2559557ef', 27),
-('cdc148dff455baf847529b5aaf2acd31bc55b971', 27),
-('d562fc5b10ae148f881089abcea4a6866f71682b', 27),
-('9f9308e18f80166ac607ddc71e4cbb374fa588fb', 28),
-('d629b7f999c035f8571f5819146f2706f5293b35', 28);
+('5c2099eb1e768389a36a3a7db54e5bab9321873b', 31),
+('913bf39dc06572ae6105e9107f0fdce2768ef163', 31);
 
 -- --------------------------------------------------------
 
@@ -145,16 +81,18 @@ CREATE TABLE `question` (
   `prio` int(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=105 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
 
 --
 -- Daten für Tabelle `question`
 --
 
 INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `rangeStep`, `type`, `prio`) VALUES
-(1, 'Studiengang?', '', 0, 0, 0, 'text', 100),
-(2, 'Semester?', '', 0, 0, 0, 'musel', 99),
-(3, 'Ich habe X% der Vorlesungen besucht', '', 0, 0, 0, 'radio', 0),
+(1, 'Studiengang?', 'VL', 0, 0, 0, 'text', 100),
+(2, 'Semester?', 'VL', 1, 20, 1, 'musel', 99),
+(3, 'Ich habe X% der Vorlesungen besucht', 'VL', 0, 100, 5, 'musel', 0),
+(4, 'Studiengang?', 'PR', 0, 0, 0, 'text', 100),
+(5, 'Semester?', 'PR', 1, 20, 1, 'musel', 99),
 (59, 'Der inhaltliche Aufbau ist logisch nachvollziehbar', 'VL', 0, 0, 0, 'radio', 0),
 (60, 'Ein Bezug zwischen Theorie und Praxis/Anwendung wird hergestellt', 'VL', 0, 0, 0, 'radio', 0),
 (61, 'Die / der Lehrende spricht verständlich(Lautstärke, Deutlichkeit)', 'VL', 0, 0, 0, 'radio', 0),
@@ -175,8 +113,8 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 (76, 'Ich lerne viel in der Veranstaltung', 'VL', 0, 0, 0, 'radio', 0),
 (77, 'Die aktive Beteiligung der Studierenden bewerte ich als sehr gut', 'VL', 0, 0, 0, 'radio', 0),
 (78, 'Die Ausstattung der Hörsäle ist sehr gut', 'VL', 0, 0, 0, 'radio', 0),
-(79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 0, 0, 0, 'musel', 0),
-(81, 'Ich gebe der Vorlesung die Gesamtnote(Noten von 1 bis 5)', 'VL', 0, 0, 0, 'musel', 0),
+(79, 'Der Aufwand in Stunden/Woche für Vor-/Nachbereitung beträgt', 'VL', 0, 50, 1, 'musel', 0),
+(81, 'Ich gebe der Vorlesung die Gesamtnote(Noten von 1 bis 5)', 'VL', 1, 5, 0.5, 'musel', 0),
 (82, 'Ich gebe diese Note weil', 'VL', 0, 0, 0, 'text', 0),
 (83, 'Mir hat besonders gefallen', 'VL', 0, 0, 0, 'text', 0),
 (84, 'Mir hat nicht gefallen', 'VL', 0, 0, 0, 'text', 0),
@@ -189,8 +127,8 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 (91, 'Der Umfang der Versuche/Übungen ist angemessen', 'PR', 0, 0, 0, 'radio', 0),
 (92, 'Die selbstständige Durchführung der Versuche/Übungen wird gefördert', 'PR', 0, 0, 0, 'radio', 0),
 (93, 'Das Feedback ist hilfreich', 'PR', 0, 0, 0, 'radio', 0),
-(94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 0, 0, 0, 'musel', 0),
-(95, 'Ich gebe dem Praktikum die Gesamtnote', 'PR', 0, 0, 0, 'musel', 0),
+(94, 'Der Aufwand für Vor- und Nachbereitung in Stunden beträgt insgesamt', 'PR', 0, 50, 1, 'musel', 0),
+(95, 'Ich gebe dem Praktikum die Gesamtnote', 'PR', 1, 5, 0.5, 'musel', 0),
 (96, 'Ich gebe diese Note weil', 'PR', 0, 0, 0, 'text', 0),
 (97, 'Mir hat besonders gefallen', 'PR', 0, 0, 0, 'text', 0),
 (98, 'Mir hat nicht gefallen', 'PR', 0, 0, 0, 'text', 0);
@@ -211,7 +149,7 @@ CREATE TABLE `questionnaire` (
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
   KEY `profId` (`profId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
 -- Daten für Tabelle `questionnaire`
@@ -224,8 +162,20 @@ INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `cour
 (24, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
 (25, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
 (26, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
-(27, 5, '2013-09-10', 'SoSe 2013', 'Apple Für Dummies', 'VL'),
-(28, 5, '2013-09-13', 'SoSe 2013', 'Penis', 'PR');
+(31, 3, '2013-09-13', 'SoSe 2013', 'Test mit GEorg ', 'PR');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `submitters`
+--
+
+CREATE TABLE `submitters` (
+  `answerhash` varchar(52) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `questionnaireId` int(12) NOT NULL,
+  PRIMARY KEY (`answerhash`),
+  KEY `questionnaireId` (`questionnaireId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -272,3 +222,10 @@ ALTER TABLE `participant`
 --
 ALTER TABLE `questionnaire`
   ADD CONSTRAINT `questionnaire_ibfk_1` FOREIGN KEY (`profId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `submitters`
+--
+ALTER TABLE `submitters`
+  ADD CONSTRAINT `submitters_ibfk_1` FOREIGN KEY (`questionnaireId`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `submitters_ibfk_2` FOREIGN KEY (`answerhash`) REFERENCES `answertoquestion` (`answerhash`) ON DELETE CASCADE ON UPDATE CASCADE;

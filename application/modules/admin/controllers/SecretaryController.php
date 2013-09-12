@@ -171,7 +171,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 						    ->fetchAll($this->submittersTable->select()
 	     				    ->where('questionnaireId = ?', $questionnaireId));
 
-		//saving non-categorical questions
+		/*//saving non-categorical questions
 		$questionIds[0] = 1;
 		$questionIds[1] = 2;
 		$questionIds[2] = 3;
@@ -181,7 +181,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 				 									  ->find($questionIds[$csvRowCounter])
 				 									  ->current()->text;							  
 				 $csvRowCounter++;									  
-				}
+				}*/
 
 		//writing first csv-line
 		foreach($categoryQuestions as $question){
