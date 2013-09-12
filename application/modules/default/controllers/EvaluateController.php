@@ -2,7 +2,6 @@
 
 class EvaluateController extends Zend_Controller_Action
 {
-
 	protected $answerToQuestionTable;
 	protected $questionTable;
 	protected $questionnaireTable;
@@ -26,7 +25,6 @@ class EvaluateController extends Zend_Controller_Action
 		$participant = null;		//participant Object from DB
 		$questionnaire = null;		//questionnaire Object from DB
 		$categoryQuestions = array();
-
 		//Incoming link from Email
 		if ($request->isGet()){				
 			$participantID = $request->getParam('id');
@@ -38,7 +36,6 @@ class EvaluateController extends Zend_Controller_Action
 		if ((bool) preg_match('/^[0-9a-f]{40}$/i', $participantID)){
 			$participants = $this->participantTable->find($participantID);
 			if (count($participants) > 0){
-
 				$participant = $participants->current();
 				//Get questionnaire to participant
 				$questionnaires = $this->questionnaireTable->find($participant->questionnaireId);
@@ -53,9 +50,7 @@ class EvaluateController extends Zend_Controller_Action
 					$categoryQuestions = $this->questionTable->fetchAll($this->questionTable->select()
 						->where('category = ?', $questionnaire->category)
 						->order('prio DESC'));
-
-					$form = $this->generateForm($participant->hash, $categoryQuestions);
-		
+					$form = $this->generateForm($participant->hash, $categoryQuestions);	
 					if ($request->isGet()){
 						$this->generateDescr($questionnaire);
 						$this->view->form = $form;
@@ -86,7 +81,7 @@ class EvaluateController extends Zend_Controller_Action
 						$this->view->formsaved = true;	
 					}
 				} else {	//(count($questionnaires) > 0)
-					$this->view->error = "No questionnaire found";
+					$this->view->error = "Fehler in der DB";
 				}
 			} else {	//(count($participants) > 0)
 				$this->view->error = "Der Evaluationszeitraum ist beendet oder die Evaluation über diesen Link wurde bereits abgeschlossen";
@@ -105,28 +100,26 @@ class EvaluateController extends Zend_Controller_Action
 	private function generateForm($participantID, $categoryQuestions){
 		$form = new Zend_Form;
 		$form->setMethod('post');
-
 		foreach($categoryQuestions as $question){
 			if($question->type == "radio"){
 				$element = new Zend_Form_Element_Radio(
 				$question->id, array('label' => $question->text));
-				$element->setMultiOptions(array('0' => "keine Angabe", '1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu"));
+				$element->setMultiOptions(array('1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu", '0' => "keine Angabe"));
 				$element->setValue(array(0));
-				$form->addElement($element, $question->id);
 			} else if($question->type == "text"){
 				$element = new Zend_Form_Element_Text(
 				$question->id, array('label' => $question->text));
 				$element->addFilter('StripTags');
-				$form->addElement($element, $question->id);
 			}  else if($question->type == "musel"){
 				$element = new Zend_Form_Element_Select(
 				$question->id, array('label' => $question->text));
 				$element->setMultiOptions(range($question->rangeMin, $question->rangeMax, $question->rangeStep));
-				$form->addElement($element, $question->id);
 			}
+			$form->addElement($element, $question->id);
 		}
 		$parIDElement = new Zend_Form_Element_Hidden(
 		'participantID', array('value' => $participantID));
+		$parIDElement->class = "hidden";
 		$submitElement = new Zend_Form_Element_Submit(
 		'submit', array('label'=>'Speichern'));
 		$elements = array($parIDElement, $submitElement);

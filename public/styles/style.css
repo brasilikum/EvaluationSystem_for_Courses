@@ -4,17 +4,22 @@ dl.zend_form dt {
 	clear: left;
     float: left;
     text-align: left;
-    width: 150px;
+    width: 350px;
+    margin-top: 30px;
 }
 dl.zend_form dt label.required { font-weight: 600; }
 dl.zend_form dd {
 	float: left;
 	clear: right;
 	padding-left: 5px;
+	 margin-top: 30px;
 }
 
 dl.zend_form dd input {
-	width:300px;
+	margin-right: 10px;
+}
+
+dl.zend_form dd label {
 }
 
 dl.zend_form dd ul.errors {
@@ -35,6 +40,15 @@ dl.zend_form dd ul.errors li {
 }
 
 body {
+	font-family: sans-serif;
 	margin: 0 auto;
 	width: 800px;
+}
+
+#participantID-element {
+	display: none;
+}
+
+#participantID-label {
+	display: none;
 }
