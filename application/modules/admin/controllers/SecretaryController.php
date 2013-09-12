@@ -23,7 +23,10 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	}
 
 	public function indexAction()
-	{
+	{		
+
+
+			$headTitle = 'EvalOs der HS Osnabrück';
 
 			$fullName = $this->userTable
 							 ->fetchAll($this->userTable
@@ -37,6 +40,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			
 			
 			 $this->view->html = $html;
+			 $this->view->headTitle = $headTitle;
 
 	}
 

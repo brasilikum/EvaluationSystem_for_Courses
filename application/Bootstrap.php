@@ -11,6 +11,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->addHelperPath(dirname(__FILE__) . '/views/helpers', 'My_View_Helper');        
     }
 
+   
+
     protected function _initLanguage()
     {
     	$translator = new Zend_Translate(
