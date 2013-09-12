@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Sep 2013 um 14:42
+-- Erstellungszeit: 12. Sep 2013 um 15:27
 -- Server Version: 5.5.29
 -- PHP-Version: 5.4.10
 
@@ -32,7 +32,43 @@ CREATE TABLE `answertoquestion` (
   KEY `questionId` (`questionId`),
   KEY `questionnaireId` (`questionnaireId`),
   KEY `answerhash` (`answerhash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=31 ;
+
+--
+-- Daten für Tabelle `answertoquestion`
+--
+
+INSERT INTO `answertoquestion` (`id`, `answertext`, `questionId`, `questionnaireId`, `answernumber`, `answerhash`) VALUES
+(1, 'Hipsterstudiengang', 4, 32, NULL, 'd312654c71c8332f3435ee0102809355e78863df'),
+(2, NULL, 5, 32, 13, 'd312654c71c8332f3435ee0102809355e78863df'),
+(3, NULL, 85, 32, 2, 'd312654c71c8332f3435ee0102809355e78863df'),
+(4, NULL, 86, 32, 4, 'd312654c71c8332f3435ee0102809355e78863df'),
+(5, NULL, 87, 32, 3, 'd312654c71c8332f3435ee0102809355e78863df'),
+(6, NULL, 89, 32, 3, 'd312654c71c8332f3435ee0102809355e78863df'),
+(7, NULL, 90, 32, 4, 'd312654c71c8332f3435ee0102809355e78863df'),
+(8, NULL, 91, 32, 3, 'd312654c71c8332f3435ee0102809355e78863df'),
+(9, NULL, 92, 32, 4, 'd312654c71c8332f3435ee0102809355e78863df'),
+(10, NULL, 93, 32, 4, 'd312654c71c8332f3435ee0102809355e78863df'),
+(11, NULL, 94, 32, 8, 'd312654c71c8332f3435ee0102809355e78863df'),
+(12, NULL, 95, 32, 4, 'd312654c71c8332f3435ee0102809355e78863df'),
+(13, 'Ich ein hipster bin', 96, 32, NULL, 'd312654c71c8332f3435ee0102809355e78863df'),
+(14, 'Yolo', 97, 32, NULL, 'd312654c71c8332f3435ee0102809355e78863df'),
+(15, 'Deine mudda', 98, 32, NULL, 'd312654c71c8332f3435ee0102809355e78863df'),
+(16, 'Medieninformatik', 4, 32, NULL, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(17, NULL, 5, 32, 7, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(18, NULL, 85, 32, 5, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(19, NULL, 86, 32, 3, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(20, NULL, 87, 32, 1, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(21, NULL, 89, 32, 3, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(22, NULL, 90, 32, 2, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(23, NULL, 91, 32, 4, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(24, NULL, 92, 32, 3, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(25, NULL, 93, 32, 0, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(26, NULL, 94, 32, 5, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(27, NULL, 95, 32, 2, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(28, 'jjjjjuuuuuuuuuuusa', 96, 32, NULL, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(29, 'hahhahaha', 97, 32, NULL, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13'),
+(30, 'plutti', 98, 32, NULL, '7df99b9fd370f89629aa7e26bbb28ff5cbd10d13');
 
 -- --------------------------------------------------------
 
@@ -62,7 +98,8 @@ INSERT INTO `participant` (`hash`, `questionnaireId`) VALUES
 ('047a9d26b99a75a0e16a34022fd84f5f65fda0ee', 25),
 ('e7a4bd0a2d8fac9ecd624d9dd4b48d4c28b94fc8', 26),
 ('5c2099eb1e768389a36a3a7db54e5bab9321873b', 31),
-('913bf39dc06572ae6105e9107f0fdce2768ef163', 31);
+('913bf39dc06572ae6105e9107f0fdce2768ef163', 31),
+('e1b73cf6335640cbb1ada21f5ae786433a348d75', 32);
 
 -- --------------------------------------------------------
 
@@ -88,11 +125,11 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `rangeStep`, `type`, `prio`) VALUES
-(1, 'Studiengang?', 'VL', 0, 0, 0, 'text', 100),
-(2, 'Semester?', 'VL', 1, 20, 1, 'musel', 99),
+(1, 'Studiengang:', 'VL', 0, 0, 0, 'text', 100),
+(2, 'Semester:', 'VL', 1, 20, 1, 'musel', 99),
 (3, 'Ich habe X% der Vorlesungen besucht', 'VL', 0, 100, 5, 'musel', 0),
-(4, 'Studiengang?', 'PR', 0, 0, 0, 'text', 100),
-(5, 'Semester?', 'PR', 1, 20, 1, 'musel', 99),
+(4, 'Studiengang:', 'PR', 0, 0, 0, 'text', 100),
+(5, 'Semester:', 'PR', 1, 20, 1, 'musel', 99),
 (59, 'Der inhaltliche Aufbau ist logisch nachvollziehbar', 'VL', 0, 0, 0, 'radio', 0),
 (60, 'Ein Bezug zwischen Theorie und Praxis/Anwendung wird hergestellt', 'VL', 0, 0, 0, 'radio', 0),
 (61, 'Die / der Lehrende spricht verständlich(Lautstärke, Deutlichkeit)', 'VL', 0, 0, 0, 'radio', 0),
@@ -141,7 +178,6 @@ INSERT INTO `question` (`id`, `text`, `category`, `rangeMin`, `rangeMax`, `range
 
 CREATE TABLE `questionnaire` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
-  `fullName` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `profId` int(12) NOT NULL,
   `expirationDate` date NOT NULL,
   `semester` varchar(20) NOT NULL,
@@ -149,22 +185,22 @@ CREATE TABLE `questionnaire` (
   `category` varchar(2) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'VL',
   PRIMARY KEY (`id`),
   KEY `category` (`category`),
-  KEY `profId` (`profId`),
-  KEY `fullName` (`fullName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+  KEY `profId` (`profId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Daten für Tabelle `questionnaire`
 --
 
-INSERT INTO `questionnaire` (`id`, `fullName`, `profId`, `expirationDate`, `semester`, `courseName`, `category`) VALUES
-(21, NULL, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
-(22, NULL, 3, '2013-09-13', 'SoSe 2013', 'Huibuh', 'PR'),
-(23, NULL, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'VL'),
-(24, NULL, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
-(25, NULL, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
-(26, NULL, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
-(31, NULL, 3, '2013-09-13', 'SoSe 2013', 'Test mit GEorg ', 'PR');
+INSERT INTO `questionnaire` (`id`, `profId`, `expirationDate`, `semester`, `courseName`, `category`) VALUES
+(21, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
+(22, 3, '2013-09-13', 'SoSe 2013', 'Huibuh', 'PR'),
+(23, 3, '2013-09-13', 'SoSe 2013', 'ARMA', 'VL'),
+(24, 3, '2013-09-13', 'SoSe 2013', 'RMA', 'VL'),
+(25, 5, '2013-09-13', 'SoSe 2013', 'ARMA', 'PR'),
+(26, 5, '2013-09-13', 'SoSe 2013', 'AppleFanboyism', 'PR'),
+(31, 3, '2013-09-13', 'SoSe 2013', 'Test mit GEorg ', 'PR'),
+(32, 5, '2013-09-11', 'SoSe 2013', 'Finaler Test', 'PR');
 
 -- --------------------------------------------------------
 
@@ -178,6 +214,14 @@ CREATE TABLE `submitters` (
   PRIMARY KEY (`answerhash`),
   KEY `questionnaireId` (`questionnaireId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `submitters`
+--
+
+INSERT INTO `submitters` (`answerhash`, `questionnaireId`) VALUES
+('7df99b9fd370f89629aa7e26bbb28ff5cbd10d13', 32),
+('d312654c71c8332f3435ee0102809355e78863df', 32);
 
 -- --------------------------------------------------------
 
@@ -193,7 +237,7 @@ CREATE TABLE `user` (
   `fullName` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fullName` (`fullName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `user`
@@ -202,7 +246,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `role`, `fullName`) VALUES
 (3, 'admin', 'admin', 'admin', 'Herr Prof. Von Und Zu'),
 (4, 'user', 'user', 'user', 'Studiensekretariat'),
-(5, 'plutti', 'apple', 'admin', 'Björn Plutka');
+(5, 'plutti', 'apple', 'admin', 'Björn Plutka'),
+(6, 'juergi', 'mathe', 'admin', 'Dr. Jürgen Kampmann');
 
 --
 -- Constraints der exportierten Tabellen
@@ -225,7 +270,6 @@ ALTER TABLE `participant`
 -- Constraints der Tabelle `questionnaire`
 --
 ALTER TABLE `questionnaire`
-  ADD CONSTRAINT `questionnaire_ibfk_2` FOREIGN KEY (`fullName`) REFERENCES `user` (`fullName`),
   ADD CONSTRAINT `questionnaire_ibfk_1` FOREIGN KEY (`profId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
