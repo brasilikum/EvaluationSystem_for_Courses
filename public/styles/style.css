@@ -67,6 +67,16 @@ header {
 	display: none;
 }
 
+textarea {
+	width: 300px;
+	height: 100px;
+}
+
+dd label:last-child {
+	opacity:0.6;
+	filter:alpha(opacity=60); /* For IE8 and earlier */
+}
+
 
 
 

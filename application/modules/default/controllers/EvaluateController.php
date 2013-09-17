@@ -64,7 +64,7 @@ class EvaluateController extends Zend_Controller_Action
 							$answer->questionId = $question->id;
 							$answer->questionnaireId = $questionnaire->id;
 							$answer->answerhash = $answerhash;
-							if($question->type == "text"){
+							if($question->type == "text" || $question->type == "tarea"){
 								$answer->answertext = $form->getValue($question->id);
 							} else if ($question->type == "radio"){
 								$answer->answernumber = $form->getValue($question->id);
@@ -114,14 +114,18 @@ class EvaluateController extends Zend_Controller_Action
 				$question->id, array('label' => $question->text));
 				$element->setMultiOptions(array('1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu", '0' => "keine Angabe"));
 				$element->setValue(array(0));
+			} else if($question->type == "musel"){
+				$element = new Zend_Form_Element_Select(
+				$question->id, array('label' => $question->text));
+				$element->setMultiOptions(range($question->rangeMin, $question->rangeMax, $question->rangeStep));
 			} else if($question->type == "text"){
 				$element = new Zend_Form_Element_Text(
 				$question->id, array('label' => $question->text));
 				$element->addFilter('StripTags');
-			}  else if($question->type == "musel"){
-				$element = new Zend_Form_Element_Select(
+			} else if($question->type == "tarea"){
+				$element = new Zend_Form_Element_Textarea(
 				$question->id, array('label' => $question->text));
-				$element->setMultiOptions(range($question->rangeMin, $question->rangeMax, $question->rangeStep));
+				$element->addFilter('StripTags');
 			}
 			$form->addElement($element, $question->id);
 		}
