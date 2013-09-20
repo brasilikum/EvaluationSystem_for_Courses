@@ -81,6 +81,21 @@ dd label:last-child {
 
 
 
-.login{
+.logout{
 	background-color: red;
+	position: absolute;
+	right: 5%;
+	top: 1%;
+}
+
+.quit{
+	position: absolute;
+	right: 10%;
+	top: 1%
+}
+
+.questionnaire{
+	position: absolute;
+	right: 50%;
+	top: 1%;
 }

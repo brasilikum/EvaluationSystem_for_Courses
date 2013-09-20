@@ -29,12 +29,12 @@ class Admin_ProfController extends Zend_Controller_Action
 							 ->where('id = ?',Application_Plugin_auth_AccessControl::getUserId()))
 							 ->current()
 							 ->fullName;
-			echo '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
+			$this->view->html = '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
 
 		
 		
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>Umfragen</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			$this->view->html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>Umfragen</a></div><br/>';
+			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
 			
@@ -45,7 +45,7 @@ class Admin_ProfController extends Zend_Controller_Action
 	public function questionnairesAction()
 	{
 
-			echo 'Ihre getätigten Umfragen';
+			$this->view->title = 'Ihre getätigten Umfragen';
 		
 			//getting UserId and its denpendant rows
 			$profId = Application_Plugin_auth_AccessControl::getUserId();
@@ -65,10 +65,9 @@ class Admin_ProfController extends Zend_Controller_Action
 				}
 			}
 			
-			echo '<a  href=\' '.	 $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
-			
-			
+			$this->view->questionnaire = '<a  href=\' '.	 $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
+			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+		
 			
 
 	}
@@ -128,10 +127,10 @@ class Admin_ProfController extends Zend_Controller_Action
 			}
 		}	
 
-		$this->view->form = $this->_getCreationForm();
+	
 			
-		echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
-		echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+		$this->view->quit = '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>abbrechen</a></div><br/>';
+		$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 				
 		$this->view->form = $form;
 			

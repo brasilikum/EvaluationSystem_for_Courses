@@ -36,10 +36,11 @@ class Admin_SecretaryController extends Zend_Controller_Action
 							 ->fullName;
 			$html = '<h3>Eingeloggt als: '.$fullName.' </ br>';				 
 			$html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'> laufende Umfragen anzeigen</a></div><br/>';
-			$html .= '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			$logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
 			 $this->view->html = $html;
+			 $this->view->logout = $logout;
 			 $this->view->headTitle = $headTitle;
 
 	}
@@ -78,9 +79,9 @@ class Admin_SecretaryController extends Zend_Controller_Action
 			
 			}
 
-				$menue = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+				$logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 
-				$this->view->menue = $menue;
+				$this->view->logout = $logout;
 				$this->view->html = $html;
 
 
@@ -108,6 +109,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 	public function showAction()
 	{
 			$counter;
+			$html;
 			$id = $this->getRequest()->getParam('id');
 
 			$where = $this->questionnaireTable->find($id);
@@ -141,7 +143,7 @@ class Admin_SecretaryController extends Zend_Controller_Action
 							     					 ->where('answerhash = ?', $answerToQuestion->answerhash)
 							     					 ->where('questionId = ?', '95'))
 							     					 ->current()->answernumber;
-										echo $answerToQuestion->answertext.' ('.$note.')';
+										echo  $answerToQuestion->answertext.' ('.$note.')';
 									}
 								}else{echo $answerToQuestion->answertext;}
 							}else{
@@ -160,8 +162,8 @@ class Admin_SecretaryController extends Zend_Controller_Action
 		}
 			
 			
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'>zurück</a></div><br/>';
-			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
+			$this->view->back = '<a  href=\' '. $this->view->baseUrl() . '/admin/secretary/questionnaires\'>zurück</a></div><br/>';
+			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
 			
