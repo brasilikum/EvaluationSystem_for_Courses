@@ -18,7 +18,6 @@ class Admin_ProfController extends Zend_Controller_Action
 		$this->questionTable = new Application_Model_DbTable_QuestionTable();
 		$this->userTable = new Application_Model_DbTable_UserTable();
 		$this->participantTable = new Application_Model_DbTable_ParticipantTable();
-		
 			
 	}
 
@@ -62,10 +61,11 @@ class Admin_ProfController extends Zend_Controller_Action
 					echo $questionnaireFromProf->courseName;
 					echo '('. $questionnaireFromProf->category.')';
 					echo $questionnaireFromProf->expirationDate;
+					
 				}
 			}
-
-			echo '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
+			
+			echo '<a  href=\' '.	 $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
 			echo '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 			
 			
@@ -195,7 +195,7 @@ class Admin_ProfController extends Zend_Controller_Action
 
 			    $this->_redirect('/admin/prof/questionnaires');
 	}
-	
+
 
 	
 
