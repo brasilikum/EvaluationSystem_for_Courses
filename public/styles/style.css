@@ -77,8 +77,62 @@ dd label:last-child {
 	filter:alpha(opacity=60); /* For IE8 and earlier */
 }
 
+.wrapper5{
+	position: absolute;
+	top: 5%;
+	left: 2%;
+	background-color: #65C5FC;
+	height: 310px;
+	width: 650px;
+     border-radius: 15px;
+     -moz-border-radius: 15px;
+     box-shadow: 3px 3px 3px;
+    -moz box-shadow: 3px 3px 3px;
+}
 
 
+.wrapper3{
+	position: absolute;
+	top: 10%;
+	left: 1.5%;
+	background-color: #97D7FC;
+	height: 290px;
+	width: 630px;
+     border-radius: 15px;
+     -moz-border-radius: 15px;
+     box-shadow: 3px 3px 3px;
+    -moz box-shadow: 3px 3px 3px;
+}
+
+.login{
+	position: absolute;
+	top: 5%;
+	left: 2.5%;
+	background-color: #D4D4D4;
+	height: 260px;
+	width: 600px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    box-shadow: 3px 3px 3px;
+    -moz box-shadow: 3px 3px 3px;
+}
+
+#username-element{
+	position: absolute;
+	left: 30%;
+}
+
+#password-element{
+	position: absolute;
+	left: 30%;
+	top: 40%;
+}
+
+#loginSubmit{
+	position: absolute;
+	left: 42%;
+	top: 70%;
+}
 
 
 .logout{
