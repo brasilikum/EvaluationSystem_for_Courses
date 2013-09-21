@@ -34,10 +34,7 @@ class Admin_ProfController extends Zend_Controller_Action
 		
 		
 			$this->view->html .= '<a  href=\' '. $this->view->baseUrl() . '/admin/prof/questionnaires\'>Umfragen</a></div><br/>';
-			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
-			
-			
-			
+			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';		
 
 	}
 
@@ -68,8 +65,6 @@ class Admin_ProfController extends Zend_Controller_Action
 			$this->view->questionnaire = '<a  href=\' '.	 $this->view->baseUrl() . '/admin/prof/create\'>Neue Umfrage erstellen</a></div><br/>';
 			$this->view->logout = '<a  href=\' '. $this->view->baseUrl() . '/user/logout\'>Logout</a></div><br/>';
 		
-			
-
 	}
 
 	//creating a new questionnaire
@@ -116,11 +111,7 @@ class Admin_ProfController extends Zend_Controller_Action
 			     	$counter++;
 			     }
 
-			  
-
 			     $questionnaireId = $newQuestionnaire->save();
-	
-
 
 
 				$this->_sendMails($questionnaireId,$emailAdresses);
@@ -194,10 +185,4 @@ class Admin_ProfController extends Zend_Controller_Action
 
 			    $this->_redirect('/admin/prof/questionnaires');
 	}
-
-
-	
-
-
 }
-
