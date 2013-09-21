@@ -1,0 +1,211 @@
+/* Zend Form Styling */
+dl.zend dt, dd { min-height: 30px; }
+dl.zend_form dt {
+	clear: left;
+    float: left;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    text-align: left;
+    width: 100%;
+}
+
+dl.zend_form .tdlittlemargin {
+	margin-top: 10px;
+}
+
+dl.zend_form dt label.required { font-weight: 600; }
+dl.zend_form dd {
+	clear: right;
+    float: left;
+    margin-left: 0px;
+}
+
+dl.zend_form dd input {
+	margin-right: 10px;
+	background-color: #CAEAFC;
+}
+
+dl.zend_form dd label {
+	background-color: #CAEAFC;
+    float: left;
+    padding: 5px 0;
+    text-align: center;
+}
+
+dl.zend_form dd label:nth-child(1) {
+	background-color: #65C5FC;
+}
+
+dl.zend_form dd label:nth-child(2) {
+	background-color: #7ECEFC;
+}
+
+dl.zend_form dd label:nth-child(3) {
+	background-color: #97D7FC;
+}
+
+dl.zend_form dd label:nth-child(4) {
+	background-color: #B0E1FC;
+}
+
+dl.zend_form dd label:nth-child(5) {
+	background-color: #CAEAFC;
+}
+
+dl.zend_form dd label:last-child {
+    margin-left: 8px;
+    background-color: #D4D4D4;
+}
+
+dl.zend_form dd ul.errors {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+dl.zend_form dd ul.errors li {
+	float: left;
+	margin: 0 0.15em;
+	font-size: 12px;
+	color: #666666;
+}
+	
+.clear {
+	clear:both;
+}
+
+body {
+	background-color: #EDEDED;
+	margin: 0;
+	padding: 0;
+}
+
+#wrapper {
+	font-family: sans-serif;
+	margin: 0 auto;
+	padding: 0 20px;
+	width: 800px;
+	height: auto;
+	background-color: white;
+	clear: both;
+}
+
+h1 {
+	font-size: 4em;
+	margin: 8px 0;
+}
+
+h2 {
+	font-size: 1.4em;
+	margin: 8px 0;
+	background-color: #65C5FC;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+h4 {
+	font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+.separator{
+	width: 100%;
+	height: 20px;
+	background-color: #D4D4D4;
+}
+
+.progressbar{
+	height: 20px;
+	background-color: #68E86F;
+	text-align: right;
+}
+
+#progress7{
+	width: 7%;
+}
+
+#progress14{
+	width: 14%;	
+}
+
+#progress43{
+	width: 43%;	
+}
+
+#progress64{
+	width: 64%;	
+}
+
+#progress74{
+	width: 74%;
+}
+
+header {
+	margin-bottom: 30px;
+}
+
+#participantID-element {
+	display: none;
+}
+
+#participantID-label {
+	display: none;
+}
+
+
+textarea {
+	width: 660px;
+	height: 100px;
+	padding: 10px;
+	background-color: #CAEAFC;
+}
+
+select {
+	background-color: #CAEAFC;
+}
+
+text {
+	background-color: #CAEAFC;
+}
+
+dd label:last-child {
+    margin-left: 8px;
+}
+
+.RadioText{
+	width: 132px;
+	font-size: 0.8em;
+}
+
+#cancel {
+	background-color: #E89476;
+	margin-bottom: 30px;
+}
+
+#submit {
+	background-color: #68E86F;
+	margin: 30px 0;
+}
+
+#wrapper2 {
+	font-family: sans-serif;
+	margin: 0 auto;
+	padding: 0 20px;
+	width: 800px;
+	height: 400px;
+	background-color: white;
+	clear: both;
+}
+
+#content{
+	background-color: #68E86F;
+    height: 40px;
+    margin: 0 auto;
+    padding-top: 16px;
+    text-align: center;
+    width: 70%;
+}

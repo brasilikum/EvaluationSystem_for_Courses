@@ -109,10 +109,51 @@ class EvaluateController extends Zend_Controller_Action
 		$form = new Zend_Form;
 		$form->setMethod('post');
 		foreach($categoryQuestions as $question){
+			if($question->prio == 89){				
+				$form->addElement('hidden', 'Lehrumgebung', array(
+				    'description' => '<dt><h3>Die Lehrumgebung</h3></dt>',
+				    'ignore' => true,
+				    'decorators' => array(
+				        array('Description', array('escape'=>false, 'tag'=>'')),
+				    ),
+				));
+			}else if($question->prio == 79){
+				$form->addElement('hidden', 'Waehend', array(
+				    'description' => '<dt><h3>Wähend der Varanstaltung</h3></dt>',
+				    'ignore' => true,
+				    'decorators' => array(
+				        array('Description', array('escape'=>false, 'tag'=>'')),
+				    ),
+				));
+			}else if($question->prio == 69){
+				$form->addElement('hidden', 'Aufbau', array(
+				    'description' => '<dt><h3>Aufbau der Veranstaltung</h3></dt>',
+				    'ignore' => true,
+				    'decorators' => array(
+				        array('Description', array('escape'=>false, 'tag'=>'')),
+				    ),
+				));
+			}else if($question->prio == 59){
+				$form->addElement('hidden', 'Nach', array(
+				    'description' => '<dt><h3>Nach der Veranstaltung</h3></dt>',
+				    'ignore' => true,
+				    'decorators' => array(
+				        array('Description', array('escape'=>false, 'tag'=>'')),
+				    ),
+				));
+			}else if($question->prio == 9){
+				$form->addElement('hidden', 'Fazit', array(
+				    'description' => '<dt><h3>Fazit</h3></dt>',
+				    'ignore' => true,
+				    'decorators' => array(
+				        array('Description', array('escape'=>false, 'tag'=>'')),
+				    ),
+				));
+			}
 			if($question->type == "radio"){
 				$element = new Zend_Form_Element_Radio(
 				$question->id, array('label' => $question->text));
-				$element->setMultiOptions(array('1' => "Trifft zu", '2' => "" , '3' => "Trifft teilweise zu", '4' => "" , '5' => "Trifft nicht zu", '0' => "keine Angabe"));
+				$element->setMultiOptions(array('1' => "Trifft zu", '2' => "Trifft meistens zu" , '3' => "Trifft teilweise zu", '4' => "Trifft selten zu" , '5' => "Trifft nicht zu", '0' => "keine Angabe"));
 				$element->setValue(array(0));
 			} else if($question->type == "musel"){
 				$element = new Zend_Form_Element_Select(
