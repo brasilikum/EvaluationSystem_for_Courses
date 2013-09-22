@@ -44,6 +44,7 @@ class IndexController extends Zend_Controller_Action
 		$submit = new Zend_Form_Element_Submit('submit', array('label' => 'Anmelden'));
 		$submit->setAttrib('id', 'loginSubmit');
 		$form->addElements(array($username, $password, $submit));
+		$form->password->renderPassword = 'true' ;
 
 		return $form;
 
