@@ -19,7 +19,14 @@ class IndexController extends Zend_Controller_Action
 
 	public function indexAction()
 	{
-
+			if(Application_Plugin_auth_AccessControl::getUserRole()){
+				if(Application_Plugin_auth_AccessControl::getUserRole() == 'user'){
+					$this->_redirect('/admin/secretary/index');
+				}
+				if(Application_Plugin_auth_AccessControl::getUserRole() == 'admin'){
+					$this->_redirect('/admin/prof/index');
+				}
+			}
 			$this->view->form = $this->_getLoginForm();
 
 			
